@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<!--<suite name="All Test Suite" data-provider-thread-count="3">-->
+<suite name="All Test Suite">
+    <listeners>
+        <listener class-name="com.digicorp.listeners.Listeners" />
+        <listener class-name="com.digicorp.listeners.MethodInterceptor"/>
+        <listener class-name="com.digicorp.listeners.AnnotationTransformer" />
+    </listeners>
+    <test verbose="2" preserve-order="true" name="Automated Tests" parallel="methods">
+        <classes>
+            <class name="com.digicorp.tests.LoginTest"/>
+        </classes>
+    </test>
+</suite>

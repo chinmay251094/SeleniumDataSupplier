@@ -1,0 +1,8 @@
+.idea/
+*.project
+target/
+.classpath
+.setting
+target/
+src/test/java/com/digicorp/resources/Data.xlsx
+extent-test-output/
