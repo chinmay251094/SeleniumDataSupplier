@@ -33,14 +33,29 @@ public final class WaitFactory {
         return webElement;
     }
 
-    public static List<WebElement> performExplicitWaitForElements(WaitTill waitTill, List<WebElement> ele) {
+    public static List<WebElement> performExplicitWaitForElements(WaitTill waitTill, By by) {
         List<WebElement> webElement = null;
 
         if (waitTill == WaitTill.VISIBLE) {
             webElement = new WebDriverWait(DriverManager.getDriver(), FrameworkConstants.getWaitTime())
-                    .until(ExpectedConditions.visibilityOfAllElements(ele));
+                    .until(ExpectedConditions.visibilityOfAllElementsLocatedBy(by));
+        } else if (waitTill == WaitTill.PRESENCE) {
+            webElement = new WebDriverWait(DriverManager.getDriver(), FrameworkConstants.getWaitTime())
+                    .until(ExpectedConditions.presenceOfAllElementsLocatedBy(by));
         }
+        return webElement;
+    }
 
+    public static WebElement performExplicitWaitForElement(WaitTill waitTill, WebElement ele) {
+        WebElement webElement = null;
+
+        if (waitTill == WaitTill.VISIBLE) {
+            webElement = new WebDriverWait(DriverManager.getDriver(), FrameworkConstants.getWaitTime())
+                    .until(ExpectedConditions.visibilityOf(ele));
+        } else if (waitTill == WaitTill.CLICKABLE) {
+            webElement = new WebDriverWait(DriverManager.getDriver(), FrameworkConstants.getWaitTime())
+                    .until(ExpectedConditions.elementToBeClickable(ele));
+        }
         return webElement;
     }
 }

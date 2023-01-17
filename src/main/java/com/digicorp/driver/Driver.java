@@ -1,9 +1,12 @@
 package com.digicorp.driver;
 
+import com.digicorp.constants.FrameworkConstants;
 import com.digicorp.factories.DriverFactory;
 
 import java.net.MalformedURLException;
+import java.time.Duration;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 public final class Driver {
     private Driver() {
@@ -18,6 +21,7 @@ public final class Driver {
             }
             DriverManager.getDriver().manage().window().maximize();
             DriverManager.getDriver().get(url);
+            DriverManager.getDriver().manage().timeouts().implicitlyWait(FrameworkConstants.getWaitTime(), TimeUnit.SECONDS);
         }
     }
 

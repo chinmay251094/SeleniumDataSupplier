@@ -1,6 +1,6 @@
 package com.digicorp.listeners;
 
-import com.digicorp.annotations.FrameworkAnnotations;
+import com.digicorp.annotations.TeamDigicorp;
 import com.digicorp.reports.ExtentReport;
 import com.digicorp.reports.ExtentReportLogger;
 import lombok.SneakyThrows;
@@ -25,8 +25,8 @@ public class Listeners implements ITestListener, ISuiteListener {
     @Override
     public void onTestStart(ITestResult result) {
         ExtentReport.createTests(result.getMethod().getDescription());
-        ExtentReport.addAuthors(result.getMethod().getConstructorOrMethod().getMethod().getAnnotation(FrameworkAnnotations.class).author());
-        ExtentReport.addCategory(result.getMethod().getConstructorOrMethod().getMethod().getAnnotation(FrameworkAnnotations.class).category());
+        ExtentReport.addAuthors(result.getMethod().getConstructorOrMethod().getMethod().getAnnotation(TeamDigicorp.class).author());
+        ExtentReport.addCategory(result.getMethod().getConstructorOrMethod().getMethod().getAnnotation(TeamDigicorp.class).category());
         ExtentReport.setBrowser();
     }
 

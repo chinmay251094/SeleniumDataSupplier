@@ -1,11 +1,10 @@
 package com.digicorp.tests;
 
-import com.digicorp.annotations.FrameworkAnnotations;
+import com.digicorp.annotations.TeamDigicorp;
 import com.digicorp.driver.DriverManager;
 import com.digicorp.enums.SDET;
 import com.digicorp.enums.Groups;
 import com.digicorp.pagelayers.LoginPage;
-import com.github.javafaker.Faker;
 import org.assertj.core.api.Assertions;
 import org.testng.annotations.Test;
 
@@ -15,7 +14,7 @@ public final class LoginTest extends BaseTest {
     private LoginTest() {
     }
 
-    @FrameworkAnnotations(author = SDET.CHINMAY, category = Groups.LOGINPAGE)
+    @TeamDigicorp(author = SDET.CHINMAY, category = Groups.LOGINPAGE)
     @Test
     public void testValidLogin(Map<String, String> data) throws Exception {
         new LoginPage().setEmail(data.get("LoginEmail")).setPassword(data.get("LoginPassword")).clickSubmit();
@@ -25,7 +24,7 @@ public final class LoginTest extends BaseTest {
         Assertions.assertThat(DriverManager.getDriver().getCurrentUrl()).isEqualTo(expected);
     }
 
-    @FrameworkAnnotations(author = SDET.CHINMAY, category = Groups.LOGINPAGE)
+    @TeamDigicorp(author = SDET.CHINMAY, category = Groups.LOGINPAGE)
     @Test
     public void testInvalidLogin(Map<String, String> data) throws Exception {
         new LoginPage().setEmail(data.get("LoginEmail")).setPassword(data.get("LoginPassword")).clickSubmit();

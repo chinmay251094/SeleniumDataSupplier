@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface FrameworkAnnotations {
+public @interface TeamDigicorp {
     public SDET[] author();
 
     public Groups[] category();

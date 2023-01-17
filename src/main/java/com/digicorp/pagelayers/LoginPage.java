@@ -24,13 +24,13 @@ public final class LoginPage extends BasePage {
         return this;
     }
 
-    public DashboardPage clickSubmit() throws Exception {
+    public CreateInvoicePage clickSubmit() throws Exception {
         click(btnLogin, WaitTill.NONE, "Submit button");
         elementSynchronization();
-        return new DashboardPage();
+        return new CreateInvoicePage();
     }
 
     public List<WebElement> getErrorMessage() {
-        return fetchElements(messageInvalidCredentials);
+        return fetchElements(messageInvalidCredentials, WaitTill.VISIBLE);
     }
 }

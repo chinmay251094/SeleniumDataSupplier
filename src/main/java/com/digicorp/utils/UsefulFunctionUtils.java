@@ -7,6 +7,7 @@ import com.google.common.util.concurrent.Uninterruptibles;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -99,6 +100,11 @@ public final class UsefulFunctionUtils {
 
     public static void dynamicElementSynchronization(int waitFor) {
         Uninterruptibles.sleepUninterruptibly(waitFor, TimeUnit.SECONDS);
+    }
+
+    public static int getCurrentDay() {
+        LocalDate currentdate = LocalDate.now();
+        return currentdate.getDayOfMonth();
     }
 
 //	public static void sendEmailWithAttachment() {
