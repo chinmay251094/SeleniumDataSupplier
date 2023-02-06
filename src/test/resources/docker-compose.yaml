@@ -1,0 +1,25 @@
+#use the command docker-compose up -d to start both services
+#$current = $PWD -replace "\\", "/" -replace "G", "g"
+version: '3'
+services:
+  selenoid:
+    image: aerokube/selenoid:latest-release
+    container_name: selenoid
+    ports:
+      - 4444:4444
+    volumes:
+      - //var/run/docker.sock:/var/run/docker.sock
+      - g:/DataSupplier/config/:/etc/selenoid/:ro
+      - g:/DataSupplier/videos/:/opt/selenoid/video/:rw
+    environment:
+      - OVERRIDE_VIDEO_OUTPUT_DIR=/G/DataSupplier/videos/
+  selenoid-ui:
+    image: aerokube/selenoid-ui
+    container_name: selenoid-ui
+    command: --selenoid-uri=http://selenoid:4444
+    ports:
+      - 8090:8080
+    links:
+      - selenoid
+    volumes: []
+    environment: []

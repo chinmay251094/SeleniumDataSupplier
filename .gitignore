@@ -4,5 +4,8 @@ target/
 .classpath
 .setting
 target/
-src/test/java/com/digicorp/resources/Data.xlsx
+src/test/java/com/digicorp/resources/TestingFile.xlsx
 extent-test-output/
+*gitignore
+.selenoid_videos
+log4j.properties
