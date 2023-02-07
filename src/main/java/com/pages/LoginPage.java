@@ -15,18 +15,20 @@ public class LoginPage extends BasePage {
     private static final By MESSAGE_INVALID_CREDENTIALS = By.xpath("//*[@id='toast-container']//div[normalize-space()='Invalid credentials.']");
 
     public LoginPage setUsername(String value) {
+        smartWait();
         sendKeys(TXT_USERNAME, Waits.VISIBLITY, value);
         return this;
     }
 
     public LoginPage setPassword(String value) {
+        synchronizeElements(1);
         sendKeys(TXT_PASSWORD, Waits.NONE, value);
         return this;
     }
 
     public HomePage clickLogin() {
         click(BTN_LOGIN, Waits.NONE, "Login");
-        synchronizeElements(2);
+        synchronizeElements(1);
         return new HomePage();
     }
 

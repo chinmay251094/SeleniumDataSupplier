@@ -1,0 +1,25 @@
+$current = $PWD -replace "\\", "/" -replace "G", "g"
+
+docker run -d --name selenoid -p 4444:4444 -v /var/run/docker.sock:/var/run/docker.sock -v /g/CompanyProjects/PayFils/config/:/etc/selenoid/:ro -v /g/CompanyProjects/PayFils/videos/:/opt/selenoid/video/:rw -e OVERRIDE_VIDEO_OUTPUT_DIR=/g/CompanyProjects/PayFils/videos/ aerokube/selenoid:latest-release
+
+docker run --rm -d --name selenoid-ui --link selenoid -p 8090:8080 aerokube/selenoid-ui --selenoid-uri=http://selenoid:4444
+
+docker rm selenoid
+docker stop selenoid
+docker stop selenoid-ui
+
+
+This command is used to run a Docker container using the image aerokube/selenoid:latest-release.
+-------------------------------------------------------------------------------------------------
+
+The options used in the command are:
+------------------------------------
+
+-d: run the container in the background
+--name: name the container as selenoid
+-p: map the host's port 4444 to the container's port 4444, making it accessible from the host
+-v: mount the host's /var/run/docker.sock file to the container's /var/run/docker.sock file, allowing the container to access the host's Docker daemon
+-v: mount the host's ${current}/config/ directory to the container's /etc/selenoid/ directory, with read-only permissions, for configuration purposes
+-v: mount the host's ${current}/videos/ directory to the container's /opt/selenoid/video/ directory, with read and write permissions, to store video outputs
+-e: set the environment variable OVERRIDE_VIDEO_OUTPUT_DIR to /G:/CompanyProjects/PayFils/videos/, specifying the directory to store the video outputs.
+Overall, this command starts a selenoid Docker container using the aerokube/selenoid:latest-release image, maps the required ports and files, and sets the environment variable for video output storage.

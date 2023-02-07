@@ -15,4 +15,10 @@ public interface FrameworkConfig extends Config {
 
     @DefaultValue("no")
     String failedstepscreenshot();
+
+    @DefaultValue("yes")
+    String video_record();
+
+    @DefaultValue("yes")
+    String active_page_loaded();
 }

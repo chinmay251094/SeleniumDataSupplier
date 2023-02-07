@@ -5,6 +5,8 @@ import com.utils.FrameworkConfig;
 import org.aeonbits.owner.ConfigFactory;
 
 public class FrameworkConstants {
+    private static FrameworkConfig frameworkConfig = ConfigFactory.create(FrameworkConfig.class);
+
     public static final String BOLD_START = "<b>";
     public static final String BOLD_END = "</b>";
     /* TEAM_MEMBERS*/
@@ -38,7 +40,6 @@ public class FrameworkConstants {
 	public static final String ICON_BROWSER_FIREFOX = "<i class=\"fa fa-firefox\" aria-hidden=\"true\"></i>";
 //	public static final String ICON_BROWSER_SAFARI = "<i class=\"fa fa-safari\" aria-hidden=\"true\"></i>";
     public static final String ICON_ORGANIZATION_SITE = "https://www.digi-corp.com/";
-    // public static final String ICON_SOCIAL_GITHUB_URL = "https://github.com/rajatt95";
     public static final String ICON_SOCIAL_LINKEDIN = "<a href='" + ICON_SOCIAL_LINKEDIN_URL
             + "'><i class='fa fa-linkedin-square' style='font-size:24px'></i></a>";
     public static final String ICON_CAMERA = "<i class=\"fa fa-camera\" aria-hidden=\"true\"></i>";
@@ -50,15 +51,14 @@ public class FrameworkConstants {
     //public static final String ICON_SOCIAL_GITHUB = "<a href='" + ICON_SOCIAL_GITHUB_URL
     //        + "'><i class='fa fa-github-square' style='font-size:24px'></i></a>";
 
-    //public static final String ICON_SOCIAL_LINKEDIN = "<i class='fa fa-linkedin-square' style='font-size:24px'></i>";
-//	public static final String ICON_SOCIAL_GITHUB = "<i class='fa fa-github-square' style='font-size:24px'></i>";
-//	public static final String ICON_SOCIAL_LINKEDIN_VALUE = "<a href='https://www.linkedin.com/in/rajat-v-3b0685128/'>LinkedIn</a>";
-//	public static final String ICON_SOCIAL_GITHUB_VALUE = "https://github.com/rajatt95";
     private static final String EXCELSHEETPATH = RESOURCEPATH + "/src/test/resources/TestingFile.xlsx";
     private static final String EXTENTREPORTFOLDERPATH = System.getProperty("user.dir") + "/extent-test-output/";
     private static final String CONFIGFILEPATH = RESOURCEPATH + "FrameworkConfig.properties";
     private static String extentReportFilePath = "";
-    private static FrameworkConfig frameworkConfig = ConfigFactory.create(FrameworkConfig.class);
+    private static final String EXPORT_VIDEO_PATH = "/local-execution-videos";
+    public static final String ACTIVE_PAGE_LOADED = frameworkConfig.active_page_loaded();
+    public static final int WAIT_PAGE_LOADED = 30;
+    public static final int WAIT_SLEEP_STEP = 0;
 
     public static String getExcelSheetPath() {
         return EXCELSHEETPATH;
@@ -77,6 +77,10 @@ public class FrameworkConstants {
         } else {
             return EXTENTREPORTFOLDERPATH + "/index.html";
         }
+    }
+
+    public static String getVideoRecordingFilePathFilePath() {
+        return EXPORT_VIDEO_PATH.replace(":", "-");
     }
 
     public static String getPropertyFilePath() {

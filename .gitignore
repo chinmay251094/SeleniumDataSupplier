@@ -7,5 +7,6 @@ target/
 src/test/java/com/digicorp/resources/TestingFile.xlsx
 extent-test-output/
 *gitignore
-.selenoid_videos
+/videos/*
 log4j.properties
+/local-execution-videos/*

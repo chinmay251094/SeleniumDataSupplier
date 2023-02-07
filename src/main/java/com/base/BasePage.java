@@ -12,12 +12,30 @@ import org.openqa.selenium.WebElement;
 import java.time.Duration;
 import java.util.List;
 
+import static com.constants.FrameworkConstants.ACTIVE_PAGE_LOADED;
+import static com.constants.FrameworkConstants.WAIT_SLEEP_STEP;
 import static com.driver.DriverManager.getDriver;
 import static com.factories.WaitFactory.waitForElement;
 import static com.factories.WaitFactory.waitForElements;
 import static com.reports.ReportsLogger.info;
+import static com.utils.UsefulFunctionsUtils.waitForPageLoaded;
 
 public class BasePage {
+    public static void smartWait() {
+        if (ACTIVE_PAGE_LOADED.trim().equals("true")) {
+            waitForPageLoaded();
+        }
+        sleep(WAIT_SLEEP_STEP);
+    }
+
+    public static void sleep(double second) {
+        try {
+            Thread.sleep((long) (second * 1000));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
     protected static WebElement getElement(By by, Waits waits) {
         return waitForElement(by, waits);
     }

@@ -7,10 +7,15 @@ import com.aventstack.extentreports.markuputils.MarkupHelper;
 import com.enums.Author;
 import com.enums.Category;
 import com.utils.BrowserOSInfoUtils;
+import com.utils.FrameworkConfig;
 import com.utils.IconUtils;
+import com.utils.ScreenRecoderUtils;
 import lombok.SneakyThrows;
+import org.aeonbits.owner.ConfigFactory;
 import org.testng.*;
 
+import java.awt.*;
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
@@ -26,6 +31,18 @@ public class TestListener implements ITestListener, ISuiteListener {
     static int count_skippedTCs;
     static int count_failedTCs;
     static int count_totalTCs;
+
+    private static FrameworkConfig frameworkConfig = ConfigFactory.create(FrameworkConfig.class);
+
+    private ScreenRecoderUtils screenRecorder;
+
+    public TestListener() {
+        try {
+            screenRecorder = new ScreenRecoderUtils();
+        } catch (IOException | AWTException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
     @SneakyThrows
     @Override
@@ -44,10 +61,11 @@ public class TestListener implements ITestListener, ISuiteListener {
         count_totalTCs = count_totalTCs + 1;
         Author[] authors = new Author[0];
         Category[] categories = new Category[0];
+        String description = null;
         Method method = result.getMethod().getConstructorOrMethod().getMethod();
         if (method.isAnnotationPresent(TestDescription.class)) {
             TestDescription testDescription = method.getAnnotation(TestDescription.class);
-            String description = testDescription.description();
+            description = testDescription.description();
             authors = testDescription.author();
             categories = testDescription.category();
             assignTestAttributes(description, authors, categories);
@@ -59,6 +77,10 @@ public class TestListener implements ITestListener, ISuiteListener {
         info(ICON_AUTHOR + " Author(s): " + "<b>" + getAuthorList(authors) + "</b>");
         info(ICON_CATEGORY + " Category: " + "<b>" + getCategoryList(categories) + "</b>");
         info(ICON_Navigate_Right + "  Navigating to : <a href=" + getURLforReports() + "><b>" + getURLforReports() + "</b></a>");
+
+        if (frameworkConfig.video_record().toLowerCase().trim().equals("yes")) {
+            screenRecorder.startRecording(description);
+        }
     }
 
     @SneakyThrows
@@ -76,6 +98,10 @@ public class TestListener implements ITestListener, ISuiteListener {
             } else {
                 throw new IllegalArgumentException("Test Description must not be null or empty");
             }
+        }
+
+        if (frameworkConfig.video_record().toLowerCase().trim().equals("yes")) {
+            screenRecorder.stopRecording(true);
         }
     }
 
@@ -106,6 +132,10 @@ public class TestListener implements ITestListener, ISuiteListener {
                 throw new IllegalArgumentException("Test Description must not be null or empty");
             }
         }
+
+        if (frameworkConfig.video_record().toLowerCase().trim().equals("yes")) {
+            screenRecorder.stopRecording(true);
+        }
     }
 
     @SneakyThrows
@@ -125,6 +155,10 @@ public class TestListener implements ITestListener, ISuiteListener {
             } else {
                 throw new IllegalArgumentException("Test Description must not be null or empty");
             }
+        }
+
+        if (frameworkConfig.video_record().toLowerCase().trim().equals("yes")) {
+            screenRecorder.stopRecording(true);
         }
     }
 

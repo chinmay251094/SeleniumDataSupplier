@@ -13,10 +13,14 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 public class DriverFactory {
+    private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH-mm-ss");
+
     private DriverFactory() {
     }
 
@@ -28,7 +32,7 @@ public class DriverFactory {
                 if (mode == RunModes.REMOTE) {
                     ChromeOptions options = new ChromeOptions();
                     options.setCapability("browserVersion", version);
-                    options.setCapability("videoName", description + ".mp4");
+                    options.setCapability("videoName", description + "-" + dateFormat.format(new Date()) + ".mp4");
                     options.setCapability("selenoid:options", new HashMap<String, Object>() {{
                         /* How to add test badge */
                         put("name", "Test badge...");
@@ -65,7 +69,7 @@ public class DriverFactory {
                 if (mode == RunModes.REMOTE) {
                     FirefoxOptions options = new FirefoxOptions();
                     options.setCapability("browserVersion", version);
-                    options.setCapability("videoName", description + ".mp4");
+                    options.setCapability("videoName", description + "-" + dateFormat.format(new Date()) + ".mp4");
                     options.setCapability("selenoid:options", new HashMap<String, Object>() {{
                         /* How to add test badge */
                         put("name", "Test badge...");

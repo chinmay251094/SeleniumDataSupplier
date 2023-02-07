@@ -1,5 +1,0 @@
-$current = $PWD -replace "\\", "/" -replace "G", "g"
-
-docker run -d --name selenoid -p 4444:4444 -v //var/run/docker.sock:/var/run/docker.sock -v ${current}/config/:/etc/selenoid/:ro -v ${current}/videos/:/opt/selenoid/video/:rw -e OVERRIDE_VIDEO_OUTPUT_DIR=/G/DataSupplier/videos/ aerokube/selenoid:latest-release
-
-docker run --rm -d --name selenoid-ui --link selenoid -p 8090:8080 aerokube/selenoid-ui --selenoid-uri=http://selenoid:4444
