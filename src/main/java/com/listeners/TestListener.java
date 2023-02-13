@@ -61,8 +61,8 @@ public class TestListener implements ITestListener, ISuiteListener {
         count_totalTCs = count_totalTCs + 1;
         Author[] authors = new Author[0];
         Category[] categories = new Category[0];
-        String description = null;
         Method method = result.getMethod().getConstructorOrMethod().getMethod();
+        String description = method.getName();
         if (method.isAnnotationPresent(TestDescription.class)) {
             TestDescription testDescription = method.getAnnotation(TestDescription.class);
             description = testDescription.description();
@@ -79,7 +79,9 @@ public class TestListener implements ITestListener, ISuiteListener {
         info(ICON_Navigate_Right + "  Navigating to : <a href=" + getURLforReports() + "><b>" + getURLforReports() + "</b></a>");
 
         if (frameworkConfig.video_record().toLowerCase().trim().equals("yes")) {
-            screenRecorder.startRecording(description);
+            if (description != null && !description.isEmpty()) {
+                screenRecorder.startRecording(description);
+            }
         }
     }
 

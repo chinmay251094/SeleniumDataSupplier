@@ -10,3 +10,4 @@ extent-test-output/
 /videos/*
 log4j.properties
 /local-execution-videos/*
+/screenshots/*

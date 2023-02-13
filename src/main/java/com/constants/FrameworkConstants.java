@@ -5,8 +5,6 @@ import com.utils.FrameworkConfig;
 import org.aeonbits.owner.ConfigFactory;
 
 public class FrameworkConstants {
-    private static FrameworkConfig frameworkConfig = ConfigFactory.create(FrameworkConfig.class);
-
     public static final String BOLD_START = "<b>";
     public static final String BOLD_END = "</b>";
     /* TEAM_MEMBERS*/
@@ -23,7 +21,6 @@ public class FrameworkConstants {
     public static final String ICON_SMILEY_FAIL = "<i class='fa fa-frown-o' style='font-size:24px'></i>";
     public static final String ICON_OS_WINDOWS = "<i class='fa fa-windows' ></i>";
     public static final String ICON_OS_MAC = "<i class='fa fa-apple' ></i>";
-
     /* ICONS - START */
     public static final String ASSERTION_FOR = "Assertion for ";
     public static final String LOGS = "logs";
@@ -33,12 +30,11 @@ public class FrameworkConstants {
     public static final String ICON_BUG = "<i class='fa fa-bug' style='font-size:18px'></i>";
     //public static final String ICON_SOCIAL_GITHUB_PAGE_URL = "https://rajatt95.github.io/";
     public static final String ICON_SOCIAL_LINKEDIN_URL = "https://www.linkedin.com/company/digicorp-information-systems-pvt-ltd/";
-
-//	public static final String ICON_BROWSER_OPERA = "<i class=\"fa fa-opera\" aria-hidden=\"true\"></i>";
+    //	public static final String ICON_BROWSER_OPERA = "<i class=\"fa fa-opera\" aria-hidden=\"true\"></i>";
 //	public static final String ICON_BROWSER_EDGE = "<i class=\"fa fa-edge\" aria-hidden=\"true\"></i>";
-	public static final String ICON_BROWSER_CHROME = "<i class=\"fa fa-chrome\" aria-hidden=\"true\"></i>";
-	public static final String ICON_BROWSER_FIREFOX = "<i class=\"fa fa-firefox\" aria-hidden=\"true\"></i>";
-//	public static final String ICON_BROWSER_SAFARI = "<i class=\"fa fa-safari\" aria-hidden=\"true\"></i>";
+    public static final String ICON_BROWSER_CHROME = "<i class=\"fa fa-chrome\" aria-hidden=\"true\"></i>";
+    public static final String ICON_BROWSER_FIREFOX = "<i class=\"fa fa-firefox\" aria-hidden=\"true\"></i>";
+    //	public static final String ICON_BROWSER_SAFARI = "<i class=\"fa fa-safari\" aria-hidden=\"true\"></i>";
     public static final String ICON_ORGANIZATION_SITE = "https://www.digi-corp.com/";
     public static final String ICON_SOCIAL_LINKEDIN = "<a href='" + ICON_SOCIAL_LINKEDIN_URL
             + "'><i class='fa fa-linkedin-square' style='font-size:24px'></i></a>";
@@ -47,18 +43,19 @@ public class FrameworkConstants {
     /* style="text-align:center;" */
     public static final String ICON_BROWSER_PREFIX = "<i class=\"fa fa-";
     public static final String ICON_BROWSER_SUFFIX = "\" aria-hidden=\"true\"></i>";
-    private static final String RESOURCEPATH = System.getProperty("user.dir");
+    public static final int WAIT_PAGE_LOADED = 30;
+    public static final int WAIT_SLEEP_STEP = 0;
     //public static final String ICON_SOCIAL_GITHUB = "<a href='" + ICON_SOCIAL_GITHUB_URL
     //        + "'><i class='fa fa-github-square' style='font-size:24px'></i></a>";
-
+    private static final String RESOURCEPATH = System.getProperty("user.dir");
     private static final String EXCELSHEETPATH = RESOURCEPATH + "/src/test/resources/TestingFile.xlsx";
     private static final String EXTENTREPORTFOLDERPATH = System.getProperty("user.dir") + "/extent-test-output/";
     private static final String CONFIGFILEPATH = RESOURCEPATH + "FrameworkConfig.properties";
-    private static String extentReportFilePath = "";
     private static final String EXPORT_VIDEO_PATH = "/local-execution-videos";
+    private static final String EXPORT_SCREENSHOT_PATH = RESOURCEPATH + "/screenshots";
+    private static FrameworkConfig frameworkConfig = ConfigFactory.create(FrameworkConfig.class);
     public static final String ACTIVE_PAGE_LOADED = frameworkConfig.active_page_loaded();
-    public static final int WAIT_PAGE_LOADED = 30;
-    public static final int WAIT_SLEEP_STEP = 0;
+    private static String extentReportFilePath = "";
 
     public static String getExcelSheetPath() {
         return EXCELSHEETPATH;
@@ -81,6 +78,10 @@ public class FrameworkConstants {
 
     public static String getVideoRecordingFilePathFilePath() {
         return EXPORT_VIDEO_PATH.replace(":", "-");
+    }
+
+    public static String getScreenshotFilePathFilePath() {
+        return EXPORT_SCREENSHOT_PATH;
     }
 
     public static String getPropertyFilePath() {

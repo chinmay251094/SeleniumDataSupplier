@@ -6,7 +6,6 @@ import com.driver.DriverManager;
 import com.enums.Author;
 import com.enums.Category;
 import com.github.javafaker.Faker;
-import com.pages.GooglePage;
 import com.pages.LoginPage;
 import com.supplier.SupplierReader;
 import com.supplier.TestDataSupplier;
@@ -24,7 +23,7 @@ public final class LoginTest extends BaseTest {
         String urlAfterLogin = DriverManager.getDriver().getCurrentUrl();
 
         new LoginPage()
-                .setUsername(dataSupplier.getUsername())
+                .setEmailAddress(dataSupplier.getUsername())
                 .setPassword(dataSupplier.getPassword())
                 .clickLogin();
 
@@ -36,7 +35,7 @@ public final class LoginTest extends BaseTest {
     public void loginUsingInvalidCredentialsTest(TestDataSupplier dataSupplier) {
         String fakeEmail = new Faker().internet().emailAddress();
         new LoginPage()
-                .setUsername(fakeEmail)
+                .setEmailAddress(fakeEmail)
                 .setPassword(dataSupplier.getPassword())
                 .clickLogin();
 

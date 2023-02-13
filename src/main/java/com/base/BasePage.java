@@ -1,19 +1,22 @@
 package com.base;
 
+import com.constants.FrameworkConstants;
 import com.enums.Waits;
 import com.github.javafaker.Faker;
 import com.google.common.util.concurrent.Uninterruptibles;
 import lombok.SneakyThrows;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebElement;
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.*;
+import org.openqa.selenium.io.FileHandler;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.util.Date;
 import java.util.List;
 
-import static com.constants.FrameworkConstants.ACTIVE_PAGE_LOADED;
-import static com.constants.FrameworkConstants.WAIT_SLEEP_STEP;
+import static com.constants.FrameworkConstants.*;
 import static com.driver.DriverManager.getDriver;
 import static com.factories.WaitFactory.waitForElement;
 import static com.factories.WaitFactory.waitForElements;
@@ -21,6 +24,8 @@ import static com.reports.ReportsLogger.info;
 import static com.utils.UsefulFunctionsUtils.waitForPageLoaded;
 
 public class BasePage {
+    private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH-mm-ss");
+
     public static void smartWait() {
         if (ACTIVE_PAGE_LOADED.trim().equals("true")) {
             waitForPageLoaded();
@@ -55,10 +60,15 @@ public class BasePage {
         info("<b>" + elementName + "</b> is clicked");
     }
 
-    protected static void sendKeys(By by, Waits waits, String value) {
+    protected static void sendKeys(By by, Waits waits, String value, String field) {
         WebElement element = waitForElement(by, waits);
         element.sendKeys(value);
-        info("Filling <b>" + value + "</b> in <b>" + element.getText() + "</b>");
+        String text = element.getText();
+        if (text.isEmpty()) {
+            info("Filling <b>" + value + "</b> in <b>" + field + "</b>");
+        } else {
+            info("Filling <b>" + value + "</b> in <b>" + element.getText() + "</b>");
+        }
     }
 
     protected static void pressKeys(By by, Waits waits, Keys key) {
@@ -102,4 +112,29 @@ public class BasePage {
         Uninterruptibles.sleepUninterruptibly(Duration.ofSeconds(waitFor));
     }
 
+    protected static void screenshotElement(By by, String elementName, Waits waits) {
+        File scrFile = getElement(by, waits).getScreenshotAs(OutputType.FILE);
+        try {
+            File dir = new File(getScreenshotFilePathFilePath());
+            if (!dir.exists()) {
+                dir.mkdir();
+            }
+            FileUtils.copyFile(scrFile, new File(dir + "/" + elementName + "-" + dateFormat.format(new Date()) + ".png"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void takeScreenshot(String screenName) {
+        TakesScreenshot ts = (TakesScreenshot) getDriver();
+        File source = ts.getScreenshotAs(OutputType.FILE);
+
+        String screenshotFilePath = "./screenshots/" + screenName + "_" + dateFormat.format(new Date()) + ".png";
+        File destination = new File(screenshotFilePath);
+        try {
+            FileHandler.copy(source, destination);
+        } catch (IOException e) {
+            System.out.println("Failed to take screenshot: " + e.getMessage());
+        }
+    }
 }
