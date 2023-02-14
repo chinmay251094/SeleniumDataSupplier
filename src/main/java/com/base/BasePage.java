@@ -137,4 +137,45 @@ public class BasePage {
             System.out.println("Failed to take screenshot: " + e.getMessage());
         }
     }
+
+    public static void hoverOverElement(By by, Waits waits) {
+        WebElement menu = getElement(by, waits);
+        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
+        executor.executeScript("arguments[0].hover();", menu);
+
+    }
+
+    public static void scrollToBottom(By by) {
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        Boolean areMoreElements = true;
+        while (areMoreElements) {
+            js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+            waitForElement(by, Waits.PRESENCE);
+            areMoreElements = (Boolean) js.executeScript("return arguments[0]", "window.scrollY < document.body.scrollHeight");
+        }
+    }
+
+    public void scrollToBottomOfPage() {
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        String script = "window.scrollTo(0, document.body.scrollHeight)";
+        while (true) {
+            js.executeScript(script);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            int previousHeight = (int) (long) js.executeScript("return document.body.scrollHeight");
+            js.executeScript(script);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            int newHeight = (int) (long) js.executeScript("return document.body.scrollHeight");
+            if (newHeight == previousHeight) {
+                break;
+            }
+        }
+    }
 }

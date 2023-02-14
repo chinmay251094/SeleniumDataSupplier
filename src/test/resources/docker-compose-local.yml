@@ -1,0 +1,23 @@
+#Use command 'docker-compose -f docker-compose-local.yml up' to execute the docker compose file
+#To stop and remove the containers, networks, and volumes defined use 'docker-compose -f docker-compose-local.yml down'
+version: '3'
+services:
+  selenoid:
+    image: aerokube/selenoid:latest-release
+    ports:
+      - 4444:4444
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /g/CompanyProjects/PayFils/config/:/etc/selenoid/:ro
+      - /g/CompanyProjects/PayFils/videos/:/opt/selenoid/video/:rw
+    environment:
+      - OVERRIDE_VIDEO_OUTPUT_DIR=/g/CompanyProjects/PayFils/videos/
+
+  selenoid-ui:
+    image: aerokube/selenoid-ui
+    ports:
+      - 8090:8080
+    links:
+      - selenoid
+    command: --selenoid-uri=http://selenoid:4444
+

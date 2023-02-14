@@ -1,0 +1,17 @@
+#To start all the services defined in the docker-compose.yml file use 'docker-compose up'
+version: '3'
+services:
+  selenoid:
+    image: aerokube/selenoid:latest-release
+    ports:
+      - 4444:4444
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /g/CompanyProjects/PayFils/config/:/etc/selenoid/:ro
+    environment:
+      - OVERRIDE_VIDEO_OUTPUT_DIR=/g/CompanyProjects/PayFils/videos/
+      - s3-endpoint=https://s3.us-east-2.amazonaws.com
+      - s3-region=us-east-2
+      - s3-bucket-name=my-bucket
+      - s3-access-key=<your-access-key>
+      - s3-secret-key=<your-secret-key>
