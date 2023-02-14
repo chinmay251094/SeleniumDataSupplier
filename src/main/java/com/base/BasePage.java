@@ -24,7 +24,7 @@ import static com.reports.ReportsLogger.info;
 import static com.utils.UsefulFunctionsUtils.waitForPageLoaded;
 
 public class BasePage {
-    private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH-mm-ss");
+    private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy_HH'h'mm'm'ss's'");
 
     public static void smartWait() {
         if (ACTIVE_PAGE_LOADED.trim().equals("true")) {
@@ -125,11 +125,11 @@ public class BasePage {
         }
     }
 
-    public static void takeScreenshot(String screenName) {
+    public static void takeScreenshot(String testcase) {
         TakesScreenshot ts = (TakesScreenshot) getDriver();
         File source = ts.getScreenshotAs(OutputType.FILE);
 
-        String screenshotFilePath = "./screenshots/" + screenName + "_" + dateFormat.format(new Date()) + ".png";
+        String screenshotFilePath = "./screenshots/" + testcase + "_" + dateFormat.format(new Date()) + ".png";
         File destination = new File(screenshotFilePath);
         try {
             FileHandler.copy(source, destination);

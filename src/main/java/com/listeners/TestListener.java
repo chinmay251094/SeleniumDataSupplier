@@ -17,8 +17,11 @@ import org.testng.*;
 import java.awt.*;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 
+import static com.base.BasePage.takeScreenshot;
 import static com.constants.FrameworkConstants.*;
 import static com.driver.Driver.getURLforReports;
 import static com.driver.DriverManager.getDriver;
@@ -88,11 +91,12 @@ public class TestListener implements ITestListener, ISuiteListener {
     @SneakyThrows
     @Override
     public void onTestSuccess(ITestResult result) {
+        String description = null;
         count_passedTCs = count_passedTCs + 1;
         Method method = result.getMethod().getConstructorOrMethod().getMethod();
         if (method.isAnnotationPresent(TestDescription.class)) {
             TestDescription testDescription = method.getAnnotation(TestDescription.class);
-            String description = testDescription.description();
+            description = testDescription.description();
             if (description != null && !description.isEmpty()) {
                 String logText = "<b>" + description + " is passed.</b>" + "  " + ICON_SMILEY_PASS;
                 Markup markup_message = MarkupHelper.createLabel(logText, ExtentColor.GREEN);
@@ -100,6 +104,10 @@ public class TestListener implements ITestListener, ISuiteListener {
             } else {
                 throw new IllegalArgumentException("Test Description must not be null or empty");
             }
+        }
+
+        if (frameworkConfig.takescreenshots().toLowerCase().trim().equals("yes")) {
+            takeScreenshot("PASSED_" + description);
         }
 
         if (frameworkConfig.video_record().toLowerCase().trim().equals("yes")) {
@@ -110,11 +118,12 @@ public class TestListener implements ITestListener, ISuiteListener {
     @SneakyThrows
     @Override
     public void onTestFailure(ITestResult result) {
+        String description = null;
         count_failedTCs = count_failedTCs + 1;
         Method method = result.getMethod().getConstructorOrMethod().getMethod();
         if (method.isAnnotationPresent(TestDescription.class)) {
             TestDescription testDescription = method.getAnnotation(TestDescription.class);
-            String description = testDescription.description();
+            description = testDescription.description();
             if (description != null && !description.isEmpty()) {
                 try {
                     fail(ICON_BUG + "  " + "<b><i>" + result.getThrowable().toString() + "</i></b>");
@@ -135,6 +144,10 @@ public class TestListener implements ITestListener, ISuiteListener {
             }
         }
 
+        if (frameworkConfig.takescreenshots().toLowerCase().trim().equals("yes")) {
+            takeScreenshot("FAILED_" + description);
+        }
+
         if (frameworkConfig.video_record().toLowerCase().trim().equals("yes")) {
             screenRecorder.stopRecording(true);
         }
@@ -143,11 +156,12 @@ public class TestListener implements ITestListener, ISuiteListener {
     @SneakyThrows
     @Override
     public void onTestSkipped(ITestResult result) {
+        String description = null;
         count_skippedTCs = count_skippedTCs + 1;
         Method method = result.getMethod().getConstructorOrMethod().getMethod();
         if (method.isAnnotationPresent(TestDescription.class)) {
             TestDescription testDescription = method.getAnnotation(TestDescription.class);
-            String description = testDescription.description();
+            description = testDescription.description();
             if (description != null && !description.isEmpty()) {
                 skip(ICON_BUG + "  " + "<b><i>" + result.getThrowable().toString() + "</i></b>");
                 skip(description + " has been skipped.", false);
@@ -157,6 +171,10 @@ public class TestListener implements ITestListener, ISuiteListener {
             } else {
                 throw new IllegalArgumentException("Test Description must not be null or empty");
             }
+        }
+
+        if (frameworkConfig.takescreenshots().toLowerCase().trim().equals("yes")) {
+            takeScreenshot("SKIPPED_" + description);
         }
 
         if (frameworkConfig.video_record().toLowerCase().trim().equals("yes")) {

@@ -21,4 +21,7 @@ public interface FrameworkConfig extends Config {
 
     @DefaultValue("yes")
     String active_page_loaded();
+
+    @DefaultValue("yes")
+    String takescreenshots();
 }

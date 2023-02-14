@@ -31,7 +31,6 @@ public class LoginPage extends BasePage {
     public HomePage clickLogin() {
         click(BTN_LOGIN, Waits.NONE, "Login");
         synchronizeElements(1);
-        takeScreenshot("Dashboard");
         return new HomePage();
     }
 
