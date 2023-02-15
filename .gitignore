@@ -4,9 +4,9 @@ target/
 .classpath
 .setting
 target/
-src/test/java/com/digicorp/resources/TestingFile.xlsx
+src/test/resources/TestingFile.xlsx
 extent-test-output/
-*gitignore
+.gitignore
 /videos/*
 log4j.properties
 /local-execution-videos/*

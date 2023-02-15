@@ -129,10 +129,18 @@ public class BasePage {
         TakesScreenshot ts = (TakesScreenshot) getDriver();
         File source = ts.getScreenshotAs(OutputType.FILE);
 
-        String screenshotFilePath = "./screenshots/" + testcase + "_" + dateFormat.format(new Date()) + ".png";
+        String screenshotsDirPath = System.getProperty("user.dir") + "/screenshots/";
+        File screenshotsDir = new File(screenshotsDirPath);
+        if (!screenshotsDir.exists()) {
+            screenshotsDir.mkdirs();
+        }
+
+        String screenshotFilePath = screenshotsDirPath + testcase + "_" + dateFormat.format(new Date()) + ".png";
         File destination = new File(screenshotFilePath);
+
         try {
             FileHandler.copy(source, destination);
+            System.out.println("Screenshot saved to file: " + screenshotFilePath);
         } catch (IOException e) {
             System.out.println("Failed to take screenshot: " + e.getMessage());
         }
