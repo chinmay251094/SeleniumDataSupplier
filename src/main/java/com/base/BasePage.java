@@ -7,6 +7,7 @@ import com.google.common.util.concurrent.Uninterruptibles;
 import lombok.SneakyThrows;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.io.FileHandler;
 
 import java.io.File;
@@ -185,5 +186,17 @@ public class BasePage {
                 break;
             }
         }
+    }
+
+    public void performDoubleClick(WebElement element) {
+        Actions actions = new Actions(getDriver());
+        actions.doubleClick(element).build().perform();
+    }
+
+    public void doubleClick(WebElement element) {
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        js.executeScript("var evt = document.createEvent('MouseEvents');" +
+                "evt.initMouseEvent('dblclick',true,true,window,0,0,0,0,0,false,false,false,false,0,null);" +
+                "arguments[0].dispatchEvent(evt);", element);
     }
 }
