@@ -7,9 +7,9 @@ services:
       - 4444:4444
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - /g/CompanyProjects/PayFils/config/:/etc/selenoid/:ro
+      - /g/GitHubPublic/SeleniumDataSupplier/config/:/etc/selenoid/:ro
     environment:
-      - OVERRIDE_VIDEO_OUTPUT_DIR=/g/CompanyProjects/PayFils/videos/
+      - OVERRIDE_VIDEO_OUTPUT_DIR=/g/GitHubPublic/SeleniumDataSupplier/videos/
       - s3-endpoint=https://s3.us-east-2.amazonaws.com
       - s3-region=us-east-2
       - s3-bucket-name=my-bucket

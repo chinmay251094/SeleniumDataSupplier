@@ -8,10 +8,10 @@ services:
       - 4444:4444
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - /g/CompanyProjects/PayFils/config/:/etc/selenoid/:ro
-      - /g/CompanyProjects/PayFils/videos/:/opt/selenoid/video/:rw
+      - /g/GitHubPublic/SeleniumDataSupplier/config/:/etc/selenoid/:ro
+      - /g/GitHubPublic/SeleniumDataSupplier/videos/:/opt/selenoid/video/:rw
     environment:
-      - OVERRIDE_VIDEO_OUTPUT_DIR=/g/CompanyProjects/PayFils/videos/
+      - OVERRIDE_VIDEO_OUTPUT_DIR=/g/GitHubPublic/SeleniumDataSupplier/videos/
 
   selenoid-ui:
     image: aerokube/selenoid-ui
