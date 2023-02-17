@@ -1,6 +1,5 @@
 package com.base;
 
-import com.constants.FrameworkConstants;
 import com.enums.Waits;
 import com.github.javafaker.Faker;
 import com.google.common.util.concurrent.Uninterruptibles;
@@ -14,6 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -25,7 +25,7 @@ import static com.reports.ReportsLogger.info;
 import static com.utils.UsefulFunctionsUtils.waitForPageLoaded;
 
 public class BasePage {
-    private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy_HH'h'mm'm'ss's'");
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy_HH'h'mm'm'ss's'");
 
     public static void smartWait() {
         if (ACTIVE_PAGE_LOADED.trim().equals("true")) {
@@ -202,5 +202,120 @@ public class BasePage {
 
     protected static boolean validateElementPresent(By by) {
         return !getDriver().findElements(by).isEmpty();
+    }
+
+    protected static void performRightClick(By by, Waits waits) {
+        Actions actions = new Actions(getDriver());
+        actions.contextClick(getElement(by, waits)).perform();
+    }
+
+    protected static void performRightClickUsingKeyboard(By by, Waits waits) {
+        Actions actions = new Actions(getDriver());
+        actions.moveToElement(getElement(by, waits)).sendKeys(Keys.chord(Keys.CONTROL, Keys.RETURN)).perform();
+    }
+
+    public static void switchToTab(int tabIndex) {
+        ArrayList<String> tabs = new ArrayList<>(getDriver().getWindowHandles());
+        if (tabs.size() < tabIndex) {
+            throw new NoSuchElementException("No tab found with index: " + tabIndex);
+        }
+        getDriver().switchTo().window(tabs.get(tabIndex - 1));
+    }
+
+    public static void switchToLastTab() {
+        ArrayList<String> tabs = new ArrayList<>(getDriver().getWindowHandles());
+        getDriver().switchTo().window(tabs.get(tabs.size() - 1));
+    }
+
+    public static void openLinkInNewTab(String link) {
+        Actions newTab = new Actions(getDriver());
+        newTab.keyDown(Keys.CONTROL).click().keyUp(Keys.CONTROL).build().perform();
+        ArrayList<String> tabs = new ArrayList<>(getDriver().getWindowHandles());
+        getDriver().switchTo().window(tabs.get(1));
+        getDriver().get(link);
+    }
+
+    public boolean isSpecialCharPresent(char specialChar) {
+        String specialCharAsString = String.valueOf(specialChar);
+        WebElement body = getDriver().findElement(By.tagName("body"));
+        return body.getText().contains(specialCharAsString);
+    }
+
+    public boolean isElementPresent(By locator) {
+        try {
+            WebElement element = getDriver().findElement(locator);
+            return element != null;
+        } catch (NoSuchElementException e) {
+            return false;
+        }
+    }
+
+    public boolean isImagePresent(String imageSrc) {
+        List<WebElement> images = getDriver().findElements(By.tagName("img"));
+        for (WebElement image : images) {
+            if (image.getAttribute("src").equals(imageSrc) && image.isDisplayed()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isLinkPresent(String linkText) {
+        try {
+            getDriver().findElement(By.linkText(linkText));
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public static void selectValueFromCustomDropdown(By dropdown, String xpath, String option) {
+        WebElement dropdownElement = getDriver().findElement(dropdown);
+        dropdownElement.click();
+        List<WebElement> dropdownOptions = dropdownElement.findElements(By.xpath(xpath));
+        for (WebElement dropdownOption : dropdownOptions) {
+            if (dropdownOption.getText().equals(option)) {
+                dropdownOption.click();
+                return;
+            }
+        }
+        throw new NoSuchElementException("Option not found in dropdown: " + option);
+    }
+
+    public static void selectRandomValueFromCustomDropdown(By dropdown, String xpath) {
+        // Find the dropdown element
+        WebElement dropdownElement = getDriver().findElement(dropdown);
+        // Click on the dropdown to open the options
+        dropdownElement.click();
+
+        // Find all the options in the dropdown
+        List<WebElement> options = getDriver().findElements(By.xpath(xpath));
+
+        // Generate a random number between 0 and the number of options
+        int index = (int) (Math.random() * options.size());
+
+        // Click on the random option
+        options.get(index).click();
+    }
+
+    public static String getTooltipText(WebElement element) {
+        Actions actions = new Actions(getDriver());
+        actions.moveToElement(element).build().perform();
+        return element.getAttribute("title");
+    }
+
+    public List<WebElement> getULandLITagElements(By by, Waits waits) {
+        return getElements(by, waits);
+    }
+
+    public static void clickElementUnderListByText(By list, Waits waits, String tagName, String text) {
+        WebElement ulElement = getElement(list, waits);
+        List<WebElement> liElements = ulElement.findElements(By.tagName(tagName));
+        for (WebElement liElement : liElements) {
+            if (liElement.getText().equals(text)) {
+                liElement.click();
+                break;
+            }
+        }
     }
 }

@@ -20,8 +20,8 @@ public class HomePage extends BasePage {
     }
 
     private static final By BTN_LOGOUT = By.xpath("//a[@href='/logout' and normalize-space()='Logout']");
-    private static final By MENU_ITEMS = By.xpath("//ul[@role='menu']/li/a");
-    private static String dynamicSubMenuOptions = "//li[@class='nav-item has-treeview menu-is-opening menu-open']//a[@href='/Admin/%s/List']";
+    private static final By MENU_ITEMS = By.xpath("//ul[@class='nav nav-pills nav-sidebar flex-column nav-legacy']");
+    private static final By SELECTED_MENU = By.xpath("//li[@class='nav-item has-treeview menu-is-opening menu-open']/ul[@class='nav nav-treeview']");
     private static final By BTN_ADD_NEW_CUSTOMER = By.xpath("//a[@href='/Admin/Customer/Create']");
 
     public boolean validateLogoutPresence() {
@@ -33,12 +33,12 @@ public class HomePage extends BasePage {
     }
 
     public HomePage selectMenu(LeftMenuBarComponents menu) {
-        selectDesiredOption(MENU_ITEMS, Waits.VISIBLITY, menu.getMenuName());
+        clickElementUnderListByText(MENU_ITEMS, Waits.VISIBLITY, "p", menu.getMenuName());
         return this;
     }
 
     public HomePage selectSubMenu(CustomerSubMenu subMenu) {
-        click(generateDynamicByLocator(dynamicSubMenuOptions, subMenu.getSubMenuCustomers()), Waits.VISIBLITY, "Sub-Menu Customer");
+        clickElementUnderListByText(SELECTED_MENU, Waits.VISIBLITY, "p", subMenu.getSubMenuCustomers());
         return this;
     }
 }

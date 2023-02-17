@@ -1,11 +1,11 @@
 package com.pages;
 
 public enum CustomerSubMenu {
-    CUSTOMER("Customer"),
-    CUSTOMER_ROLE("CustomerRoles"),
-    VENDOR("Vendor"),
-    ACTIVITY_LOG("ActivityLog"),
-    ACITIVITY_TYPES("ActivityTypes");
+    CUSTOMER("Customers"),
+    CUSTOMER_ROLE("Customer roles"),
+    VENDOR("Vendors"),
+    ACTIVITY_LOG("Activity log"),
+    ACITIVITY_TYPES("Activity Types");
 
     public String getSubMenuCustomers() {
         return subMenuCustomers;
