@@ -7,8 +7,8 @@
     </listeners>
     <test name="Test1" parallel="methods">
         <classes>
-            <class name="com.tests.HomePageTest"/>
-            <class name="com.tests.LoginTest"/>
+            <class name="com.tests.HomePageTests"/>
+            <class name="com.tests.LoginPageTests"/>
         </classes>
     </test>
 </suite>

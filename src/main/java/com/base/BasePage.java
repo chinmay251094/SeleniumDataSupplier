@@ -63,6 +63,7 @@ public class BasePage {
 
     protected static void sendKeys(By by, Waits waits, String value, String field) {
         WebElement element = waitForElement(by, waits);
+        element.clear();
         element.sendKeys(value);
         String text = element.getText();
         if (text.isEmpty()) {
@@ -141,7 +142,6 @@ public class BasePage {
 
         try {
             FileHandler.copy(source, destination);
-            System.out.println("Screenshot saved to file: " + screenshotFilePath);
         } catch (IOException e) {
             System.out.println("Failed to take screenshot: " + e.getMessage());
         }
@@ -198,5 +198,9 @@ public class BasePage {
         js.executeScript("var evt = document.createEvent('MouseEvents');" +
                 "evt.initMouseEvent('dblclick',true,true,window,0,0,0,0,0,false,false,false,false,0,null);" +
                 "arguments[0].dispatchEvent(evt);", element);
+    }
+
+    protected static boolean validateElementPresent(By by) {
+        return !getDriver().findElements(by).isEmpty();
     }
 }
