@@ -2,28 +2,25 @@ package com.pages;
 
 import com.base.BasePage;
 import com.enums.Waits;
-import com.factories.WaitFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
-import static com.factories.WaitFactory.waitForElements;
-
 public class LoginPage extends BasePage {
     private LoginPage() {
     }
 
-    public static LoginPage getInstance() {
+    public static LoginPage useLoginPage() {
         return new LoginPage();
     }
 
-    private final By TXT_EMAIL = By.id("Email");
-    private final By TXT_PASSWORD = By.id("Password");
-    private final By BTN_LOGIN = By.xpath("//button[normalize-space()='Log in']");
+    private final By TXT_USERNAME = By.xpath("//input[@name='username']");
+    private final By TXT_PASSWORD = By.xpath("//input[@name='password' and @type='password']");
+    private final By BTN_LOGIN = By.xpath("//button[@type='submit' and normalize-space()='Login']");
 
     public LoginPage setEmailAddress(String value) {
-        sendKeys(TXT_EMAIL, Waits.VISIBLITY, value, "Email");
+        sendKeys(TXT_USERNAME, Waits.VISIBLITY, value, "Email");
         return this;
     }
 
@@ -34,6 +31,10 @@ public class LoginPage extends BasePage {
 
     public HomePage clickLogin() {
         click(BTN_LOGIN, Waits.NONE, "Login");
-        return HomePage.getInstance();
+        return HomePage.useHomePage();
+    }
+
+    public boolean isLoginPageElementPresent() {
+        return isElementPresent(BTN_LOGIN);
     }
 }

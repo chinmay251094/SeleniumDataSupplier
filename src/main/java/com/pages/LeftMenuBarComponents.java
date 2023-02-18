@@ -1,11 +1,11 @@
 package com.pages;
 
 public enum LeftMenuBarComponents {
-    DASHBOARD("Dashboard"),
-    CATALOG("Catalog"),
-    SALES("Sales"),
-    CUSTOMERS("Customers"),
-    PROMOTIONS("Promotions");
+    ADMIN("Admin"),
+    PIM("PIM"),
+    LEAVE("Leave"),
+    TIME("Time"),
+    MY_INFO("My Info");
 
     public String getMenuName() {
         return menuName;

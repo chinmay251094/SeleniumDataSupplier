@@ -29,8 +29,8 @@ public class Reports {
             extentReports.attachReporter(sparkReporter);
             sparkReporter.config().setTheme(Theme.STANDARD);
             sparkReporter.config().setReportName("Test Automation Reports");
-            sparkReporter.config().setDocumentTitle("Google Inc.");
-            extentReports.setSystemInfo("Organization", "<img src='" + System.getProperty("user.dir") + "/src/test/resources/Google.png' style='float:left; width:50px; height:50px; vertical-align:middle;'>&nbsp;&nbsp;" + "<b style='vertical-align:middle;'> Google Inc. </b>" + "<a href='" + ICON_ORGANIZATION_SITE + "'>" + ICON_ORGANIZATION_SITE + "</a>");
+            sparkReporter.config().setDocumentTitle("OrangeHRM Inc.");
+            extentReports.setSystemInfo("Organization", "<img src='" + System.getProperty("user.dir") + "/src/test/resources/OrangeHRM.png' style='float:left; width:50px; height:50px; vertical-align:middle;'>&nbsp;&nbsp;" + "<b style='vertical-align:middle;'> OrangeHRM Inc. </b>" + "<a href='" + ICON_ORGANIZATION_SITE + "'>" + ICON_ORGANIZATION_SITE + "</a>");
             extentReports.setSystemInfo("Department", "<i><b>Engineering (Automation Testing)</i></b>" + "  " + ICON_BUG);
             extentReports.setSystemInfo("Manager", "<i><b>" + MANAGER + "</i></b>" + " " + ICON_MANAGER);
             extentReports.setSystemInfo("Team Members", "<i><b>" + MEMBER1 + "</i></b> " + ICON_TEAM + "<br>" +

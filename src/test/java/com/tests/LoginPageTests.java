@@ -10,6 +10,7 @@ import com.supplier.SupplierReader;
 import com.supplier.TestDataSupplier;
 import org.testng.annotations.Test;
 
+import static com.pages.LoginPage.useLoginPage;
 import static com.utils.VerificationUtils.*;
 
 public final class LoginPageTests extends BaseTest {
@@ -17,11 +18,11 @@ public final class LoginPageTests extends BaseTest {
     }
 
     @Test(dataProvider = "getDataFromExcel", dataProviderClass = SupplierReader.class)
-    @TestDescription(description = "To test login feature", author = Author.CHINMAY, category = Category.SANITY)
+    @TestDescription(description = "To test login feature", author = Author.CHINMAY, category = Category.SMOKE)
     public void testLogin(TestDataSupplier dataSupplier) {
         String urlAfterLogin = DriverManager.getDriver().getCurrentUrl();
 
-        LoginPage.getInstance()
+        useLoginPage()
                 .setEmailAddress(dataSupplier.getUsername())
                 .setPassword(dataSupplier.getPassword())
                 .clickLogin();

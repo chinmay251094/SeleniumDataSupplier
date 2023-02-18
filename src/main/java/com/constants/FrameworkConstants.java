@@ -35,7 +35,7 @@ public class FrameworkConstants {
     public static final String ICON_BROWSER_CHROME = "<i class=\"fa fa-chrome\" aria-hidden=\"true\"></i>";
     public static final String ICON_BROWSER_FIREFOX = "<i class=\"fa fa-firefox\" aria-hidden=\"true\"></i>";
     //	public static final String ICON_BROWSER_SAFARI = "<i class=\"fa fa-safari\" aria-hidden=\"true\"></i>";
-    public static final String ICON_ORGANIZATION_SITE = "https://www.google.com/";
+    public static final String ICON_ORGANIZATION_SITE = "https://opensource-demo.orangehrmlive.com/";
     public static final String ICON_SOCIAL_LINKEDIN = "<a href='" + ICON_SOCIAL_LINKEDIN_URL
             + "'><i class='fa fa-linkedin-square' style='font-size:24px'></i></a>";
     public static final String ICON_CAMERA = "<i class=\"fa fa-camera\" aria-hidden=\"true\"></i>";
