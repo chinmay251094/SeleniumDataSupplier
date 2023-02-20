@@ -75,6 +75,23 @@ public class BasePage {
         }
     }
 
+    public static void sendKeysOneCharAtATime(WebElement element, String text) {
+        for (int i = 0; i < text.length(); i++) {
+            char c = text.charAt(i);
+            String s = new StringBuilder().append(c).toString();
+            element.sendKeys(s);
+        }
+    }
+
+    public static void sendKeysOneCharAtATime(By locator, Waits wait, String text) {
+        WebElement element = getElement(locator, wait);
+        for (int i = 0; i < text.length(); i++) {
+            char c = text.charAt(i);
+            String s = new StringBuilder().append(c).toString();
+            element.sendKeys(s);
+        }
+    }
+
     protected static void pressKeys(By by, Waits waits, Keys key) {
         WebElement element = waitForElement(by, waits);
         element.sendKeys(key);
@@ -319,5 +336,22 @@ public class BasePage {
                 break;
             }
         }
+    }
+
+    public static void handleAlert(boolean accept) {
+        Alert alert = getDriver().switchTo().alert();
+        String alertText = alert.getText();
+        System.out.println("Alert text is " + alertText);
+        if (accept) {
+            alert.accept();
+        } else {
+            alert.dismiss();
+        }
+    }
+
+    public static void clickAndHold(By locator, Waits waits) {
+        Actions actions = new Actions(getDriver());
+        WebElement element = getElement(locator, waits);
+        actions.clickAndHold(element).perform();
     }
 }
