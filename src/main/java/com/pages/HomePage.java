@@ -36,7 +36,7 @@ public class HomePage extends BasePage {
     }
 
     public HomePage selectMenu(LeftMenuBarComponents menu) {
-        clickElementUnderListByText(MENU_ITEMS, Waits.VISIBLITY, "span", menu.getMenuName());
+        selectDesiredOption(MENU_ITEMS, Waits.VISIBLITY, menu.getMenuName());
         return this;
     }
 }

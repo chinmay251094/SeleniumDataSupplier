@@ -37,4 +37,11 @@ public class LoginPage extends BasePage {
     public boolean isLoginPageElementPresent() {
         return isElementPresent(BTN_LOGIN);
     }
+
+    public HomePage performLogin(String username, String password) {
+        setEmailAddress(username);
+        setPassword(password);
+        clickLogin();
+        return HomePage.useHomePage();
+    }
 }

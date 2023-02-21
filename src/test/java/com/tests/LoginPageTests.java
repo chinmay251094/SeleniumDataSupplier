@@ -19,7 +19,7 @@ public final class LoginPageTests extends BaseTest {
 
     @Test(dataProvider = "getDataFromExcel", dataProviderClass = SupplierReader.class)
     @TestDescription(description = "To test login feature", author = Author.CHINMAY, category = Category.SMOKE)
-    public void testLogin(TestDataSupplier dataSupplier) {
+    void testLogin(TestDataSupplier dataSupplier) {
         String urlAfterLogin = DriverManager.getDriver().getCurrentUrl();
 
         useLoginPage()
