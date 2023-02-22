@@ -1,4 +1,4 @@
-package com.pages;
+package com.pagecomponents;
 
 public enum LeftMenuBarComponents {
     ADMIN("Admin"),

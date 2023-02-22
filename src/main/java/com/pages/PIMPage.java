@@ -2,6 +2,7 @@ package com.pages;
 
 import com.base.BasePage;
 import com.enums.Waits;
+import com.pagecomponents.PIMButtonComponents;
 import org.openqa.selenium.By;
 
 public class PIMPage extends BasePage {

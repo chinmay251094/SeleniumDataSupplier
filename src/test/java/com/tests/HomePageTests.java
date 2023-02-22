@@ -4,15 +4,13 @@ import com.annotations.TestDescription;
 import com.base.BaseTest;
 import com.enums.Author;
 import com.enums.Category;
-import com.pages.HomePage;
-import com.pages.LeftMenuBarComponents;
-import com.pages.PIMButtonComponents;
-import com.pages.ProfileComponents;
+import com.pagecomponents.LeftMenuBarComponents;
+import com.pagecomponents.PIMButtonComponents;
+import com.pagecomponents.ProfileComponents;
 import com.supplier.SupplierReader;
 import com.supplier.TestDataSupplier;
 import org.testng.annotations.Test;
 
-import static com.pages.HomePage.useHomePage;
 import static com.pages.LoginPage.useLoginPage;
 import static com.pages.PIMPage.usePIMPage;
 import static com.utils.VerificationUtils.validate;

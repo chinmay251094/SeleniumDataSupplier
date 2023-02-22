@@ -2,6 +2,8 @@ package com.pages;
 
 import com.base.BasePage;
 import com.enums.Waits;
+import com.pagecomponents.LeftMenuBarComponents;
+import com.pagecomponents.ProfileComponents;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
