@@ -1,0 +1,138 @@
+You can use the document.querySelector() method in JavaScript to locate the button element
+and then call the click() method on it to perform the click action.
+
+Here's an example code snippet:
+
+// Find the button element using its class name
+var buttonElement = document.querySelector('.class-name');
+
+// Click the button
+buttonElement.click();
+
+For sending keys, you can use the value property to set the value of an input element. Here's an example:
+
+// Find the input element using its ID
+var inputElement = document.querySelector('#input-id');
+
+// Set the value of the input element
+inputElement.value = 'Hello, world!';
+
+Here's an example:
+
+document.querySelector('input[name="firstName"]').value = "Bhagat";
+
+
+To select an element using JavaScript in console, you can use the document.querySelector() method. This method returns the first element
+within the document that matches the specified CSS selector.
+
+Here's an example of how to select an element with a specific class:
+
+// Select the first element with class "example-class"
+var element = document.querySelector('.example-class');
+
+// Log the selected element to the console
+console.log(element);
+
+You can also select elements based on other attributes such as ID, name, or tag name. Here are a few examples:
+
+// Select the element with ID "example-id"
+var element = document.querySelector('#example-id');
+
+// Select the first input element with name "example-name"
+var element = document.querySelector('input[name="example-name"]');
+
+// Select the first h1 element
+var element = document.querySelector('h1');
+
+
+You can hover over it using the following JavaScript code in the console:
+
+var myButton = document.getElementById("myButton");
+
+var mouseEnterEvent = new MouseEvent('mouseenter', {
+  view: window,
+  bubbles: true,
+  cancelable: true
+});
+
+myButton.dispatchEvent(mouseEnterEvent);
+
+This code first gets a reference to the button element using its ID. Then it creates a new MouseEvent object with the type of mouseenter
+and dispatches it on the button element using the dispatchEvent method.
+
+This will simulate the behavior of hovering over the button with the mouse.
+
+
+Here's an example of taking a screenshot of a webpage using JavaScript on the Chrome DevTools console:
+
+// Take a screenshot of the entire page
+screenshot = await page.screenshot({fullPage: true});
+
+// Display the screenshot in the console
+console.log(screenshot);
+
+Press Enter to execute the command.
+The screenshot will be taken and displayed in the console output. You can also right-click on the output
+and select "Save as" to save the screenshot to your computer.
+
+Note: this code assumes that you have Puppeteer installed and imported into your console session.
+Also, please keep in mind that taking screenshots of certain webpages may be prohibited by law or the website's terms of service,
+so use this feature responsibly.
+
+To perform a double click using JavaScript, you can use the dblclick() method of the MouseEvent object. Here is an example:
+
+// Find the element you want to double click
+var element = document.querySelector("#myElement");
+
+// Create a new MouseEvent object with the type 'dblclick'
+var event = new MouseEvent("dblclick", {
+    view: window,
+    bubbles: true,
+    cancelable: true
+});
+
+// Dispatch the event on the element
+element.dispatchEvent(event);
+
+In this example, replace #myElement with the CSS selector for the element you want to double click.
+When you run this code in the console of your browser's developer tools, it should double click the element.
+
+
+To fetch the value of a textbox using JavaScript, you can use the value property of the textbox element. Here's an example:
+
+// Find the textbox element using its ID
+var textboxElement = document.getElementById('myTextbox');
+
+// Get the value of the textbox
+var textboxValue = textboxElement.value;
+
+In this example, replace "myTextbox" with the ID of the textbox element that you want to get the value of.
+The variable textboxValue will contain the current value of the textbox.
+
+Using tag name and name:
+
+// Find the textbox element using its tag name and name
+var textBoxElement = document.querySelector('input[name="mytextbox"]');
+
+// Get the value of the textbox
+var textBoxValue = textBoxElement.value;
+
+// Print the value to the console
+console.log(textBoxValue);
+
+Using XPath:
+
+// Find the textbox element using its XPath
+var textBoxElement = document.evaluate('//input[@name="mytextbox"]', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+
+// Get the value of the textbox
+var textBoxValue = textBoxElement.value;
+
+// Print the value to the console
+console.log(textBoxValue);
+
+
+
+
+
+

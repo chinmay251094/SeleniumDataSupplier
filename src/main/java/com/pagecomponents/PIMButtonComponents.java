@@ -11,6 +11,12 @@ public enum PIMButtonComponents {
 
     private String button;
 
+    public String getTextBox() {
+        return textBox;
+    }
+
+    private String textBox;
+
     PIMButtonComponents(String button) {
         this.button = button;
     }
