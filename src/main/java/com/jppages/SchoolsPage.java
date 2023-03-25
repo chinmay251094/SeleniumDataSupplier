@@ -12,7 +12,7 @@ import java.util.List;
 
 import static com.factories.WaitFactory.waitForElements;
 
-public class SchoolsPage<T> extends BasePage {
+public class SchoolsPage extends BasePage {
     private SchoolsPage() {
     }
 
@@ -55,17 +55,18 @@ public class SchoolsPage<T> extends BasePage {
     }
 
     public boolean verifyRangeApplied(int minRange, int maxRange) {
-        List<Integer> percentages = new ArrayList<>();
+        List<Integer> formattedPercentages = new ArrayList<>();
+        List<WebElement> dataTablePercentages = getElements(LIST_PERCENTAGE_IN_RANGE, Waits.VISIBLITY);
 
-        for (WebElement element : getElements(LIST_PERCENTAGE_IN_RANGE, Waits.VISIBLITY)) {
-            percentages.add(Integer.parseInt(element.getText().substring(0, 2)));
-        }
-
-        List<Integer> sortedPercentages = getSortedList(percentages);
-
-        if (sortedPercentages.isEmpty()) {
+        if (dataTablePercentages.isEmpty()) {
             throw new SkipException("No percentages generated");
         }
+
+        for (WebElement element : dataTablePercentages) {
+            formattedPercentages.add(Integer.parseInt(element.getText().substring(0, 2)));
+        }
+
+        List<Integer> sortedPercentages = getSortedList(formattedPercentages);
         System.out.println("Sorted % " + sortedPercentages);
         int minValue = Integer.MAX_VALUE;
         int maxValue = Integer.MIN_VALUE;

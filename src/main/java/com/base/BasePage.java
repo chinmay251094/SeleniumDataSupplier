@@ -26,7 +26,7 @@ import static com.factories.WaitFactory.*;
 import static com.reports.ReportsLogger.info;
 import static com.utils.UsefulFunctionsUtils.waitForPageLoaded;
 
-public class BasePage<T> {
+public class BasePage {
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy_HH'h'mm'm'ss's'");
 
     protected static void smartWait() {

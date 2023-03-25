@@ -27,8 +27,8 @@ public class SliderTests extends BaseTest {
     @Test(dataProvider = "getDataFromExcel", dataProviderClass = SupplierReader.class)
     @TestDescription(description = "To test user is able to move slider", author = Author.CHINMAY, category = Category.SMOKE)
     void testSlider(TestDataSupplier dataSupplier) {
-        int min = 30;
-        int max = 80;
+        int min = 20;
+        int max = 85;
         useLoginPage().clickLoginModel().setUsername(dataSupplier.getUsername()).setPassword(dataSupplier.getPassword())
                 .selectDistrict(Districts.ROCKETSHIP_PUBLIC_SCHOOLS).clickLogin();
 
