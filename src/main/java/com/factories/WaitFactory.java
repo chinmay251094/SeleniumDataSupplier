@@ -14,7 +14,8 @@ import java.util.Objects;
 import static com.driver.DriverManager.getDriver;
 
 public class WaitFactory {
-    private WaitFactory() {}
+    private WaitFactory() {
+    }
 
     private static void highlightElement(WebElement element) {
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
@@ -50,7 +51,7 @@ public class WaitFactory {
             case VISIBLITY -> elements = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(by));
             case PRESENCE -> elements = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(by));
         }
-        if(Objects.nonNull(elements)) {
+        if (Objects.nonNull(elements)) {
             highlightElements(elements);
         }
         return elements;
@@ -65,5 +66,11 @@ public class WaitFactory {
         }
         highlightElement(element);
         return element;
+    }
+
+    public static String waitForElementAttribute(WebElement element) {
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(20));
+        boolean value = wait.until(ExpectedConditions.attributeToBeNotEmpty(element, "value"));
+        return value ? element.getAttribute("value") : null;
     }
 }

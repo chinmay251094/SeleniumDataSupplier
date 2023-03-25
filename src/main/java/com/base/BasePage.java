@@ -5,38 +5,38 @@ import com.github.javafaker.Faker;
 import com.google.common.util.concurrent.Uninterruptibles;
 import lombok.SneakyThrows;
 import org.apache.commons.io.FileUtils;
+import org.apache.poi.ss.formula.functions.T;
 import org.openqa.selenium.*;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.io.FileHandler;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.Month;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import static com.constants.FrameworkConstants.*;
 import static com.driver.DriverManager.getDriver;
-import static com.factories.WaitFactory.waitForElement;
-import static com.factories.WaitFactory.waitForElements;
+import static com.factories.WaitFactory.*;
 import static com.reports.ReportsLogger.info;
 import static com.utils.UsefulFunctionsUtils.waitForPageLoaded;
 
-public class BasePage {
+public class BasePage<T> {
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy_HH'h'mm'm'ss's'");
 
-    public static void smartWait() {
+    protected static void smartWait() {
         if (ACTIVE_PAGE_LOADED.trim().equals("true")) {
             waitForPageLoaded();
         }
         sleep(WAIT_SLEEP_STEP);
     }
 
-    public static void sleep(double second) {
+    protected static void sleep(double second) {
         try {
             Thread.sleep((long) (second * 1000));
         } catch (InterruptedException e) {
@@ -63,6 +63,12 @@ public class BasePage {
         info("<b>" + elementName + "</b> is clicked");
     }
 
+    protected static void clickUsingAction(By by, Waits waits, String elementName) {
+        Actions actions = new Actions(getDriver());
+        actions.moveToElement(getElement(by, waits)).click().perform();
+        info("<b>" + elementName + "</b> is clicked");
+    }
+
     protected static void sendKeys(By by, Waits waits, String value, String field) {
         WebElement element = waitForElement(by, waits);
         element.clear();
@@ -75,7 +81,13 @@ public class BasePage {
         }
     }
 
-    public static void sendKeysOneCharAtATime(WebElement element, String text) {
+    protected static void sendKeysUsingAction(By by, Waits waits, String value, String field) {
+        Actions actions = new Actions(getDriver());
+        actions.moveToElement(getElement(by, waits)).click().sendKeys(value).build().perform();
+        info("Filling <b>" + value + "</b> in <b>" + field + "</b>");
+    }
+
+    protected static void sendKeysOneCharAtATime(WebElement element, String text) {
         for (int i = 0; i < text.length(); i++) {
             char c = text.charAt(i);
             String s = new StringBuilder().append(c).toString();
@@ -83,7 +95,7 @@ public class BasePage {
         }
     }
 
-    public static void sendKeysOneCharAtATime(By locator, Waits wait, String text) {
+    protected static void sendKeysOneCharAtATime(By locator, Waits wait, String text) {
         WebElement element = getElement(locator, wait);
         for (int i = 0; i < text.length(); i++) {
             char c = text.charAt(i);
@@ -100,8 +112,12 @@ public class BasePage {
     @SneakyThrows
     protected static void selectDesiredOption(By by, Waits waits, String value) {
         List<WebElement> elements = getElements(by, waits);
-        elements.stream().filter(e -> e.getText().startsWith(value))
-                .findAny().orElseThrow(() -> new Exception("Element not found")).click();
+        for (WebElement element : elements) {
+            if (element.getText().equals(value)) {
+                element.click();
+                break;
+            }
+        }
         info("<b>" + value + "</b> has been selected.");
     }
 
@@ -166,14 +182,14 @@ public class BasePage {
         }
     }
 
-    public static void hoverOverElement(By by, Waits waits) {
+    protected static void hoverOverElement(By by, Waits waits) {
         WebElement menu = getElement(by, waits);
         JavascriptExecutor executor = (JavascriptExecutor) getDriver();
         executor.executeScript("arguments[0].hover();", menu);
 
     }
 
-    public static void scrollToBottom(By by) {
+    protected static void scrollToBottom(By by) {
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
         Boolean areMoreElements = true;
         while (areMoreElements) {
@@ -183,7 +199,7 @@ public class BasePage {
         }
     }
 
-    public void scrollToBottomOfPage() {
+    protected void scrollToBottomOfPage() {
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
         String script = "window.scrollTo(0, document.body.scrollHeight)";
         while (true) {
@@ -207,12 +223,12 @@ public class BasePage {
         }
     }
 
-    public void performDoubleClick(WebElement element) {
+    protected void performDoubleClick(WebElement element) {
         Actions actions = new Actions(getDriver());
         actions.doubleClick(element).build().perform();
     }
 
-    public void doubleClick(WebElement element) {
+    protected void doubleClick(WebElement element) {
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
         js.executeScript("var evt = document.createEvent('MouseEvents');" +
                 "evt.initMouseEvent('dblclick',true,true,window,0,0,0,0,0,false,false,false,false,0,null);" +
@@ -233,7 +249,7 @@ public class BasePage {
         actions.moveToElement(getElement(by, waits)).sendKeys(Keys.chord(Keys.CONTROL, Keys.RETURN)).perform();
     }
 
-    public static void switchToTab(int tabIndex) {
+    protected static void switchToTab(int tabIndex) {
         ArrayList<String> tabs = new ArrayList<>(getDriver().getWindowHandles());
         if (tabs.size() < tabIndex) {
             throw new NoSuchElementException("No tab found with index: " + tabIndex);
@@ -241,12 +257,12 @@ public class BasePage {
         getDriver().switchTo().window(tabs.get(tabIndex - 1));
     }
 
-    public static void switchToLastTab() {
+    protected static void switchToLastTab() {
         ArrayList<String> tabs = new ArrayList<>(getDriver().getWindowHandles());
         getDriver().switchTo().window(tabs.get(tabs.size() - 1));
     }
 
-    public static void openLinkInNewTab(String link) {
+    protected static void openLinkInNewTab(String link) {
         Actions newTab = new Actions(getDriver());
         newTab.keyDown(Keys.CONTROL).click().keyUp(Keys.CONTROL).build().perform();
         ArrayList<String> tabs = new ArrayList<>(getDriver().getWindowHandles());
@@ -254,13 +270,13 @@ public class BasePage {
         getDriver().get(link);
     }
 
-    public boolean isSpecialCharPresent(char specialChar) {
+    protected boolean isSpecialCharPresent(char specialChar) {
         String specialCharAsString = String.valueOf(specialChar);
         WebElement body = getDriver().findElement(By.tagName("body"));
         return body.getText().contains(specialCharAsString);
     }
 
-    public boolean isElementPresent(By locator) {
+    protected boolean isElementPresent(By locator) {
         try {
             WebElement element = getDriver().findElement(locator);
             return element != null;
@@ -269,7 +285,7 @@ public class BasePage {
         }
     }
 
-    public boolean isImagePresent(String imageSrc) {
+    protected boolean isImagePresent(String imageSrc) {
         List<WebElement> images = getDriver().findElements(By.tagName("img"));
         for (WebElement image : images) {
             if (image.getAttribute("src").equals(imageSrc) && image.isDisplayed()) {
@@ -279,7 +295,7 @@ public class BasePage {
         return false;
     }
 
-    public boolean isLinkPresent(String linkText) {
+    protected boolean isLinkPresent(String linkText) {
         try {
             getDriver().findElement(By.linkText(linkText));
             return true;
@@ -288,7 +304,7 @@ public class BasePage {
         }
     }
 
-    public static void selectValueFromCustomDropdown(By dropdown, String xpath, String option) {
+    protected static void selectValueFromCustomDropdown(By dropdown, String xpath, String option) {
         WebElement dropdownElement = getDriver().findElement(dropdown);
         dropdownElement.click();
         List<WebElement> dropdownOptions = dropdownElement.findElements(By.xpath(xpath));
@@ -301,7 +317,7 @@ public class BasePage {
         throw new NoSuchElementException("Option not found in dropdown: " + option);
     }
 
-    public static void selectRandomValueFromCustomDropdown(By dropdown, String xpath) {
+    protected static void selectRandomValueFromCustomDropdown(By dropdown, String xpath) {
         // Find the dropdown element
         WebElement dropdownElement = getDriver().findElement(dropdown);
         // Click on the dropdown to open the options
@@ -317,17 +333,17 @@ public class BasePage {
         options.get(index).click();
     }
 
-    public static String getTooltipText(WebElement element) {
+    protected static String getTooltipText(WebElement element) {
         Actions actions = new Actions(getDriver());
         actions.moveToElement(element).build().perform();
         return element.getAttribute("title");
     }
 
-    public List<WebElement> getULandLITagElements(By by, Waits waits) {
+    protected List<WebElement> getULandLITagElements(By by, Waits waits) {
         return getElements(by, waits);
     }
 
-    public static void clickElementUnderListByText(By list, Waits waits, String tagName, String text) {
+    protected static void clickElementUnderListByText(By list, Waits waits, String tagName, String text) {
         WebElement ulElement = getElement(list, waits);
         List<WebElement> liElements = ulElement.findElements(By.tagName(tagName));
         for (WebElement liElement : liElements) {
@@ -338,7 +354,7 @@ public class BasePage {
         }
     }
 
-    public static void handleAlert(boolean accept) {
+    protected static void handleAlert(boolean accept) {
         Alert alert = getDriver().switchTo().alert();
         String alertText = alert.getText();
         System.out.println("Alert text is " + alertText);
@@ -349,9 +365,39 @@ public class BasePage {
         }
     }
 
-    public static void clickAndHold(By locator, Waits waits) {
+    protected static void clickAndHold(By locator, Waits waits) {
         Actions actions = new Actions(getDriver());
         WebElement element = getElement(locator, waits);
         actions.clickAndHold(element).perform();
+    }
+
+    protected static String getAttributeValue(By by, Waits waits) {
+        return waitForElementAttribute(getElement(by, waits));
+    }
+
+    protected static void moveSlider(By by, Waits waits) {
+        WebElement element = getElement(by, waits);
+        Actions actions = new Actions(getDriver());
+        actions.clickAndHold(element).moveByOffset(550, 0).release().build().perform();
+    }
+
+    /**
+     * Sorts the given list of objects in ascending order and returns a new sorted list.
+     *
+     * @param list the list of objects to be sorted.
+     * @param <T> the type of the objects in the list.
+     * @return a new list containing the same elements as the input list, but in ascending order.
+     */
+    protected static <T extends Comparable<T>> List<T> getSortedList(List<T> list) {
+        // Create a Comparator object that can compare objects of type T using the compareTo method.
+        // The lambda expression Comparable::compareTo is a shorthand way of creating the Comparator object.
+        Comparator<T> comparator = Comparable::compareTo;
+
+        // Sort the input list in place using the Comparator object.
+        // The sort method rearranges the elements of the list in ascending order.
+        list.sort(comparator);
+
+        // Return the sorted list.
+        return list;
     }
 }

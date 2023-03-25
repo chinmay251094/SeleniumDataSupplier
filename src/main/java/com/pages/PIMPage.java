@@ -19,6 +19,7 @@ public class PIMPage extends BasePage {
 
     private static String buttons = "//button[normalize-space()='%s']";
     private static String textBox = "//input[@name='%s']";
+    private static final By TXT_EMPLOYEEID = By.xpath("//label[text()='Employee Id']/following::input[1]");
 
     private static final By btnSave = By.xpath("//button[@type='submit']");
 
@@ -34,6 +35,11 @@ public class PIMPage extends BasePage {
 
     public PIMPage setLastName(PIMTextboxComponents textboxComponents, String value) {
         sendKeys(generateDynamicByLocator(textBox, textboxComponents.getTextbox()), Waits.NONE, value, "Last Name");
+        return this;
+    }
+
+    public PIMPage setEmployeeId(String id) {
+        sendKeys(TXT_EMPLOYEEID, Waits.VISIBLITY, id, "Employee Id");
         return this;
     }
 

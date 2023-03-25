@@ -9,6 +9,8 @@
         <classes>
             <class name="com.tests.HomePageTests"/>
             <class name="com.tests.LoginPageTests"/>
+            <class name="com.tests.MyInfoTests"/>
+            <class name="com.tests.SliderTests"/>
         </classes>
     </test>
 </suite>
