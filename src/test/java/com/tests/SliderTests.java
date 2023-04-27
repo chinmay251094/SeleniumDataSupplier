@@ -7,12 +7,8 @@ import com.enums.Category;
 import com.jpcomponents.Districts;
 import com.jpcomponents.LeftMenuComponents;
 import com.jpcomponents.ProgrameNameComponents;
-import com.jppages.HomePage;
-import com.jppages.LoginPage;
-import com.jppages.SchoolsPage;
 import com.supplier.SupplierReader;
 import com.supplier.TestDataSupplier;
-import com.utils.VerificationUtils;
 import org.testng.annotations.Test;
 
 import static com.jppages.HomePage.useHomePage;

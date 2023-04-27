@@ -19,12 +19,21 @@ import java.util.Date;
 import static org.monte.media.FormatKeys.*;
 import static org.monte.media.VideoFormatKeys.*;
 
+/**
+ * ScreenRecoderUtils class extends ScreenRecorder to provide utility methods to record the screen.
+ */
 public class ScreenRecoderUtils extends ScreenRecorder {
     private final Object lock = new Object();
     private String fileName;
     private File currentFile;
     private SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH-mm-ss");
 
+    /**
+     * Constructs a new ScreenRecoderUtils object with the default screen device and configuration.
+     *
+     * @throws IOException  If an I/O error occurs.
+     * @throws AWTException If an AWT error occurs.
+     */
     public ScreenRecoderUtils() throws IOException, AWTException {
         super(GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration(),
                 new Rectangle(0, 0, Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height),
@@ -36,6 +45,14 @@ public class ScreenRecoderUtils extends ScreenRecorder {
                 new File("./" + FrameworkConstants.getVideoRecordingFilePathFilePath() + "/"));
     }
 
+    /**
+     * Returns a new file object with a unique name based on the provided filename. If a file with the same name already
+     * <p>
+     * exists, a counter is appended to the filename until a unique name is found.
+     *
+     * @param fileName The base filename to use for the new file object.
+     * @return A new file object with a unique name.
+     */
     private File getFileWithUniqueName(String fileName) {
         String extension = "";
         String name = "";
@@ -54,19 +71,31 @@ public class ScreenRecoderUtils extends ScreenRecorder {
         return new File(fileName);
     }
 
+    /**
+     * Creates a new movie file with a unique name in the movieFolder directory.
+     *
+     * @param fileFormat the format of the movie file
+     * @return the created movie file
+     * @throws IOException if there was an error creating the file
+     */
     @Override
     protected File createMovieFile(Format fileFormat) throws IOException {
         synchronized (lock) {
             if (!movieFolder.exists()) {
                 movieFolder.mkdirs();
             } else if (!movieFolder.isDirectory()) {
-                throw new IOException("\"" + movieFolder + "\" is not a directory.");
+                throw new IOException("" + movieFolder + "is not a directory.");
             }
             currentFile = getFileWithUniqueName(movieFolder.getAbsolutePath() + File.separator + fileName + "_" + dateFormat.format(new Date()) + "." + Registry.getInstance().getExtension(fileFormat));
             return currentFile;
         }
     }
 
+    /**
+     * Starts recording the screen to a file with the given file name.
+     *
+     * @param fileName the name of the file to record to
+     */
     public void startRecording(String fileName) {
         synchronized (lock) {
             this.fileName = fileName;
@@ -78,6 +107,11 @@ public class ScreenRecoderUtils extends ScreenRecorder {
         }
     }
 
+    /**
+     * Stops recording the screen and optionally deletes the recorded file.
+     *
+     * @param keepFile if true, the recorded file will be kept; if false, the recorded file will be deleted
+     */
     public void stopRecording(boolean keepFile) {
         synchronized (lock) {
             try {
@@ -91,7 +125,10 @@ public class ScreenRecoderUtils extends ScreenRecorder {
         }
     }
 
-    private void deleteRecording() {
+    /**
+     * Deletes the current screen recording file.
+     */
+    public void deleteRecording() {
         synchronized (lock) {
             boolean deleted = false;
             try {
@@ -99,12 +136,14 @@ public class ScreenRecoderUtils extends ScreenRecorder {
                     deleted = currentFile.delete();
                 }
             } catch (Exception e) {
+                // Prints the stack trace of the exception
                 e.printStackTrace();
             }
-            if (deleted)
+            if (deleted) {
                 currentFile = null;
-            else
+            } else {
                 System.out.println("Could not delete the screen record!");
+            }
         }
     }
 }

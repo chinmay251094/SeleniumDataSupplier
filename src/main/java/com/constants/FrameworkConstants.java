@@ -4,6 +4,9 @@ import com.utils.DateTimeUtils;
 import com.utils.FrameworkConfig;
 import org.aeonbits.owner.ConfigFactory;
 
+/**
+ * This class contains constants used throughout the automation framework.
+ */
 public class FrameworkConstants {
     public static final String BOLD_START = "<b>";
     public static final String BOLD_END = "</b>";
@@ -57,10 +60,22 @@ public class FrameworkConstants {
     public static final String ACTIVE_PAGE_LOADED = frameworkConfig.active_page_loaded();
     private static String extentReportFilePath = "";
 
+    /**
+     * Returns the path to the Excel sheet used for test data.
+     *
+     * @return the path to the Excel sheet used for test data
+     */
     public static String getExcelSheetPath() {
         return EXCELSHEETPATH;
     }
 
+    /**
+     * Returns the path to the Extent report file. If the path is not set, creates a new report file
+     * with a timestamp in the name.
+     *
+     * @return the path to the Extent report file
+     * @throws Exception if an error occurs while creating the report file
+     */
     public static String getExtentReportFilePath() throws Exception {
         if (extentReportFilePath.isEmpty()) {
             extentReportFilePath = createReportPath();
@@ -68,6 +83,13 @@ public class FrameworkConstants {
         return extentReportFilePath;
     }
 
+    /**
+     * Creates the path for the Extent report file. If the framework configuration specifies not to
+     * override existing reports, the path will include a timestamp in the file name.
+     *
+     * @return the path to the Extent report file
+     * @throws Exception if an error occurs while creating the report file
+     */
     private static String createReportPath() throws Exception {
         if (frameworkConfig.overridereports().equalsIgnoreCase("no")) {
             return EXTENTREPORTFOLDERPATH + DateTimeUtils.getDateTime() + " Test Report.html";
@@ -76,14 +98,29 @@ public class FrameworkConstants {
         }
     }
 
+    /**
+     * Returns the file path for the video recording of the test execution.
+     *
+     * @return the file path for the video recording of the test execution
+     */
     public static String getVideoRecordingFilePathFilePath() {
         return EXPORT_VIDEO_PATH.replace(":", "-");
     }
 
+    /**
+     * Returns the file path for the screenshot captured during the test execution.
+     *
+     * @return the file path for the screenshot captured during the test execution
+     */
     public static String getScreenshotFilePathFilePath() {
         return EXPORT_SCREENSHOT_PATH;
     }
 
+    /**
+     * Returns the path to the configuration file.
+     *
+     * @return the path to the configuration file
+     */
     public static String getPropertyFilePath() {
         return CONFIGFILEPATH;
     }

@@ -2,16 +2,20 @@ package com.utils;
 
 import static com.constants.FrameworkConstants.*;
 
-//final -> We do not want any class to extend this class
 public final class IconUtils {
 
     /**
      * Private constructor to avoid external instantiation
      */
-    //private -> We do not want anyone to create the object of this class
+    // We do not want anyone to create the object of this class
     private IconUtils() {
     }
 
+    /**
+     * Returns the icon name for the current browser
+     *
+     * @return the icon name for the current browser
+     */
     public static String getBrowserIcon() {
         String browserInLowerCase = BrowserInfoUtils.getBrowserInfo().toLowerCase();
         if (browserInLowerCase.contains(ICON_BROWSER_EDGE)) {
@@ -21,6 +25,11 @@ public final class IconUtils {
         }
     }
 
+    /**
+     * Returns the icon name for the current OS
+     *
+     * @return the icon name for the current OS
+     */
     public static String getOSIcon() {
 
         String operSys = OSInfoUtils.getOSInfo().toLowerCase();

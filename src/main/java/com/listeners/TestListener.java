@@ -29,6 +29,23 @@ import static com.reports.Reports.*;
 import static com.reports.ReportsLogger.*;
 import static com.reports.ReportsManager.getReports;
 
+/**
+ * The TestListener class implements the ITestListener and ISuiteListener interfaces and is used to listen to events that occur during test execution.
+ * <p>
+ * It keeps track of the number of passed, skipped, failed, and total test cases.
+ * <p>
+ * It also initializes and flushes the reports at the start and end of the suite.
+ * <p>
+ * It assigns test attributes such as description, author, and category to the test reports.
+ * <p>
+ * It assigns the device details to the test reports.
+ * <p>
+ * It logs the OS, browser, and browser version information.
+ * <p>
+ * It navigates to the test report URL.
+ * <p>
+ * It starts recording the screen if the configuration allows it.
+ */
 public class TestListener implements ITestListener, ISuiteListener {
     static int count_passedTCs;
     static int count_skippedTCs;
@@ -39,6 +56,9 @@ public class TestListener implements ITestListener, ISuiteListener {
 
     private ScreenRecoderUtils screenRecorder;
 
+    /**
+     * The constructor initializes the screen recorder.
+     */
     public TestListener() {
         try {
             screenRecorder = new ScreenRecoderUtils();
@@ -47,24 +67,45 @@ public class TestListener implements ITestListener, ISuiteListener {
         }
     }
 
+    /**
+     * The onStart method initializes the reports at the start of the suite.
+     *
+     * @param suite the test suite
+     */
     @SneakyThrows
     @Override
     public void onStart(ISuite suite) {
         initReports();
     }
 
+    /**
+     * The onFinish method flushes the reports at the end of the suite.
+     *
+     * @param suite the test suite
+     */
     @SneakyThrows
     @Override
     public void onFinish(ISuite suite) {
         flushReports();
     }
 
+    /**
+     * This method is called when a test starts.
+     * <p>
+     * It retrieves test information such as the description, authors, and categories from the TestDescription annotation and assigns them to the report.
+     * <p>
+     * It also assigns the device information to the report and starts video recording if configured.
+     *
+     * @param result the ITestResult object representing the test result
+     */
     @Override
     public void onTestStart(ITestResult result) {
         count_totalTCs = count_totalTCs + 1;
         Author[] authors = new Author[0];
         Category[] categories = new Category[0];
         Method method = result.getMethod().getConstructorOrMethod().getMethod();
+
+        // Get the test description from the TestDescription annotation if present
         String description = method.getName();
         if (method.isAnnotationPresent(TestDescription.class)) {
             TestDescription testDescription = method.getAnnotation(TestDescription.class);
@@ -73,14 +114,19 @@ public class TestListener implements ITestListener, ISuiteListener {
             categories = testDescription.category();
             assignTestAttributes(description, authors, categories);
         }
+
+        // Assign device information to the report
         String browserNameAndVersion = getBrowserNameAndVersion(getDriver());
         getReports().assignDevice(browserNameAndVersion);
-        info(BOLD_START + IconUtils.getOSIcon() + "  &  " + IconUtils.getBrowserIcon() + " --------- "
+
+        // Log test information
+        info(BOLD_START + IconUtils.getOSIcon() + " & " + IconUtils.getBrowserIcon() + " --------- "
                 + BrowserOSInfoUtils.getOS_Browser_BrowserVersionInfo() + BOLD_END);
         info(ICON_AUTHOR + " Author(s): " + "<b>" + getAuthorList(authors) + "</b>");
         info(ICON_CATEGORY + " Category: " + "<b>" + getCategoryList(categories) + "</b>");
-        info(ICON_Navigate_Right + "  Navigating to : <a href=" + getURLforReports() + "><b>" + getURLforReports() + "</b></a>");
+        info(ICON_Navigate_Right + " Navigating to : <a href=" + getURLforReports() + "><b>" + getURLforReports() + "</b></a>");
 
+        // Start video recording if configured
         if (frameworkConfig.video_record().toLowerCase().trim().equals("yes")) {
             if (description != null && !description.isEmpty()) {
                 screenRecorder.startRecording(description);
@@ -88,6 +134,14 @@ public class TestListener implements ITestListener, ISuiteListener {
         }
     }
 
+    /**
+     * This method is invoked when a test is passed. It increments the count of passed test cases and gets the description
+     * of the test from the @TestDescription annotation. It then logs the success message to the test report and takes a
+     * screenshot (if enabled) with the name "PASSED_[description]". It also stops the screen recording (if enabled) for
+     * the passed test.
+     *
+     * @param result the result of the test
+     */
     @SneakyThrows
     @Override
     public void onTestSuccess(ITestResult result) {
@@ -115,6 +169,15 @@ public class TestListener implements ITestListener, ISuiteListener {
         }
     }
 
+    /**
+     * This method is called each time a test method fails.
+     * It retrieves the test method's description from the TestDescription annotation and
+     * logs the failure with the description and a stack trace.
+     * If configured to do so, it takes a screenshot of the failure and stops the screen recorder.
+     *
+     * @param result The result of the failed test method
+     * @throws IllegalArgumentException if the test method's TestDescription annotation has a null or empty description
+     */
     @SneakyThrows
     @Override
     public void onTestFailure(ITestResult result) {
@@ -126,6 +189,7 @@ public class TestListener implements ITestListener, ISuiteListener {
             description = testDescription.description();
             if (description != null && !description.isEmpty()) {
                 try {
+                    // Log failure message with stack trace
                     fail(ICON_BUG + "  " + "<b><i>" + result.getThrowable().toString() + "</i></b>");
                     String exceptionMessage = Arrays.toString(result.getThrowable().getStackTrace());
                     String message = "<details><summary><b><font color=red> Exception occured, click to see details: "
@@ -144,15 +208,28 @@ public class TestListener implements ITestListener, ISuiteListener {
             }
         }
 
+        // Take screenshot if configured to do so
         if (frameworkConfig.takescreenshots().toLowerCase().trim().equals("yes")) {
             takeScreenshot("FAILED_" + description);
         }
 
+        // Stop screen recorder if configured to do so
         if (frameworkConfig.video_record().toLowerCase().trim().equals("yes")) {
             screenRecorder.stopRecording(true);
         }
     }
 
+    /**
+     * This method is called when a test is skipped. It increments the count of skipped test cases and
+     * <p>
+     * retrieves the test description if present. If the description is not null or empty, it logs the
+     * <p>
+     * test as skipped and creates a label with the test name and a skip icon. If screenshots and/or
+     * <p>
+     * video recording are enabled, it takes a screenshot and stops the screen recorder respectively.
+     *
+     * @param result the test result object
+     */
     @SneakyThrows
     @Override
     public void onTestSkipped(ITestResult result) {

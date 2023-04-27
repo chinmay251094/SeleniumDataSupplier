@@ -1,15 +1,21 @@
 package com.utils;
 
-//final -> We do not want any class to extend this class
+/**
+ * A utility class for obtaining information about the operating system.
+ */
 public final class OSInfoUtils {
 
     /**
-     * Private constructor to avoid external instantiation
+     * Private constructor to prevent external instantiation of this utility class.
      */
-    //private -> We do not want anyone to create the object of this class
     private OSInfoUtils() {
     }
 
+    /**
+     * Gets the name of the current operating system.
+     *
+     * @return The name of the current operating system.
+     */
     public static String getOSInfo() {
         return System.getProperty("os.name").replace(" ", "_");
     }

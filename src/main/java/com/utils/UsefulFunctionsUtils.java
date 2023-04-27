@@ -10,12 +10,27 @@ import java.time.Duration;
 import static com.constants.FrameworkConstants.WAIT_PAGE_LOADED;
 import static com.driver.DriverManager.getDriver;
 
+/**
+ * A utility class containing useful functions.
+ */
 public class UsefulFunctionsUtils {
+
+    /**
+     * Capitalizes the first letter of a string.
+     *
+     * @param str the string to capitalize
+     * @return the capitalized string
+     */
     public static String capitalize(String str) {
         return str.substring(0, 1).toUpperCase() + str.substring(1, str.length());
     }
 
-    public static void waitForPageLoaded() {
+    /**
+     * Waits for the page to finish loading.
+     *
+     * @throws AssertionError if the page does not finish loading within a specified time
+     */
+    public static void waitForPageLoaded() throws AssertionError {
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(WAIT_PAGE_LOADED), Duration.ofMillis(500));
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
 

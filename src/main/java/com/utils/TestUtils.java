@@ -15,9 +15,21 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 
+/**
+ * A utility class containing various useful methods for testing.
+ */
 public class TestUtils {
+
+    /**
+     * Parses an XML file containing string key-value pairs and returns a map containing the keys and values.
+     *
+     * @param file an InputStream object containing the XML file to parse
+     * @return a HashMap object containing the string key-value pairs
+     * @throws Exception if an error occurs during parsing
+     */
     static public HashMap<String, String> parseStringXML(InputStream file) throws Exception {
         HashMap<String, String> stringMap = new HashMap<String, String>();
+
         // Get Document Builder
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
@@ -38,6 +50,7 @@ public class TestUtils {
             Node node = nList.item(temp);
             if (node.getNodeType() == Node.ELEMENT_NODE) {
                 Element eElement = (Element) node;
+
                 // Store each element key value in map
                 // stringMap.put(eElement.getAttribute("name"), eElement.getTextContent());
                 stringMap.put(eElement.getAttribute("name"), eElement.getAttribute("value"));
@@ -46,6 +59,11 @@ public class TestUtils {
         return stringMap;
     }
 
+    /**
+     * Returns the current date and time in the format "yyyy-MM-dd-HH-mm-ss".
+     *
+     * @return a string representing the current date and time
+     */
     public static String dateTime() {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
         Date date = new Date();
@@ -71,6 +89,12 @@ public class TestUtils {
      * File.separator + "log.txt", true); } catch (IOException e) { // TODO
      * Auto-generated catch block e.printStackTrace(); } PrintWriter printWriter =
      * new PrintWriter(fileWriter); printWriter.println(msg); printWriter.close(); }
+     */
+
+    /**
+     * Returns a logger object for the current class.
+     *
+     * @return A Logger object for the class of the calling method.
      */
     public static Logger log() {
         return LogManager.getLogger(Thread.currentThread().getStackTrace()[2].getClassName());

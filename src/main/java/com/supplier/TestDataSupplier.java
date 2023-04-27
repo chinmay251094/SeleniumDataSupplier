@@ -6,6 +6,11 @@ import com.enums.Browsers;
 import com.enums.RunModes;
 import io.github.sskorol.data.Sheet;
 
+/**
+ * This class represents a data supplier for test data.
+ * <p>
+ * The data is read from an Excel sheet named "TestData".
+ */
 @Sheet(name = "TestData")
 public class TestDataSupplier {
     @Column(name = "TestCase", index = 0)
