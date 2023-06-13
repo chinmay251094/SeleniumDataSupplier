@@ -27,11 +27,13 @@ public class TestDataSupplier {
     private boolean Execute;
     @Column(name = "Mode", index = 6, converterClass = StringToRunMode.class)
     private RunModes Mode;
-    @Column(name = "Username", index = 7)
+    @Column(name = "Headless", index = 7, converterClass = BooleanConverter.class)
+    private Boolean Headless;
+    @Column(name = "Username", index = 8)
     private String Username;
-    @Column(name = "Password", index = 8)
+    @Column(name = "Password", index = 9)
     private String Password;
-    @Column(name = "ExpectedURL", index = 9)
+    @Column(name = "ExpectedURL", index = 10)
     private String ExpectedURL;
 
     public String getTestcase() {
@@ -48,6 +50,10 @@ public class TestDataSupplier {
 
     public RunModes getMode() {
         return Mode;
+    }
+
+    public Boolean getHeadless() {
+        return Headless;
     }
 
     public String getDescription() {

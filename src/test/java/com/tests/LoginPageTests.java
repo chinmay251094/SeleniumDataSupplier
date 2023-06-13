@@ -5,6 +5,7 @@ import com.base.BaseTest;
 import com.driver.DriverManager;
 import com.enums.Author;
 import com.enums.Category;
+import com.listeners.RetryOnFailure;
 import com.pages.LoginPage;
 import com.supplier.SupplierReader;
 import com.supplier.TestDataSupplier;
@@ -17,7 +18,7 @@ public final class LoginPageTests extends BaseTest {
     private LoginPageTests() {
     }
 
-    @Test(dataProvider = "getDataFromExcel", dataProviderClass = SupplierReader.class)
+    @Test(dataProvider = "getDataFromExcel", dataProviderClass = SupplierReader.class, retryAnalyzer = RetryOnFailure.class)
     @TestDescription(description = "To test login feature", author = Author.CHINMAY, category = Category.SMOKE)
     void testLogin(TestDataSupplier dataSupplier) {
         String urlAfterLogin = DriverManager.getDriver().getCurrentUrl();

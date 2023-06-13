@@ -24,6 +24,7 @@
         <extentreports.version>5.0.9</extentreports.version>
         <log4j.version>1.2.17</log4j.version>
         <monte-screen-recorder.version>0.7.7.0</monte-screen-recorder.version>
+        <javax.mail.version>1.6.2</javax.mail.version>
     </properties>
 
     <build>
@@ -104,6 +105,11 @@
             <groupId>com.github.stephenc.monte</groupId>
             <artifactId>monte-screen-recorder</artifactId>
             <version>${monte-screen-recorder.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+            <version>${javax.mail.version}</version>
         </dependency>
     </dependencies>
 </project>

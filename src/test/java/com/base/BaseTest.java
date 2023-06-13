@@ -36,7 +36,7 @@ public class BaseTest {
         TestDataSupplier testDataSupplier = testDataMap.get(((TestDataSupplier) data[0]).getTestcase());
         System.out.println(testDataSupplier.getURL());
         // Initialize the web driver with the test data
-        initDriver(testDataSupplier.getBrowser(), testDataSupplier.getURL(), testDataSupplier.getMode(), testDataSupplier.getDescription(), testDataSupplier.getVersion());
+        initDriver(testDataSupplier.getBrowser(), testDataSupplier.getURL(), testDataSupplier.getMode(), testDataSupplier.getDescription(), testDataSupplier.getVersion(), testDataSupplier.getHeadless());
     }
 
     /**

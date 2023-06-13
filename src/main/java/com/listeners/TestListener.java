@@ -152,7 +152,14 @@ public class TestListener implements ITestListener, ISuiteListener {
             TestDescription testDescription = method.getAnnotation(TestDescription.class);
             description = testDescription.description();
             if (description != null && !description.isEmpty()) {
-                String logText = "<b>" + description + " is passed.</b>" + "  " + ICON_SMILEY_PASS;
+                RetryOnFailure retryAnalyzer = (RetryOnFailure) result.getMethod().getRetryAnalyzer(result);
+                int actualRetries = retryAnalyzer.getRetryCount();
+                String logText;
+                if (actualRetries > 0) {
+                    logText = BOLD_START + description + " has passed after " + actualRetries + " retries." + BOLD_END + "  " + ICON_SMILEY_PASS;
+                } else {
+                    logText = "<b>" + description + " is passed.</b>" + "  " + ICON_SMILEY_PASS;
+                }
                 Markup markup_message = MarkupHelper.createLabel(logText, ExtentColor.GREEN);
                 pass(markup_message, false);
             } else {
@@ -188,21 +195,25 @@ public class TestListener implements ITestListener, ISuiteListener {
             TestDescription testDescription = method.getAnnotation(TestDescription.class);
             description = testDescription.description();
             if (description != null && !description.isEmpty()) {
-                try {
-                    // Log failure message with stack trace
-                    fail(ICON_BUG + "  " + "<b><i>" + result.getThrowable().toString() + "</i></b>");
-                    String exceptionMessage = Arrays.toString(result.getThrowable().getStackTrace());
-                    String message = "<details><summary><b><font color=red> Exception occured, click to see details: "
-                            + ICON_SMILEY_FAIL + " </font></b>" + "</summary>" + exceptionMessage.replaceAll(",", "<br>")
-                            + "</details> \n";
+                RetryOnFailure retryAnalyzer = (RetryOnFailure) result.getMethod().getRetryAnalyzer(result);
+                int actualRetries = retryAnalyzer.getRetryCount();
 
-                    fail(message);
-                    String logText = BOLD_START + description + " has failed." + BOLD_END + "  " + ICON_SMILEY_FAIL;
-                    Markup markup_message = MarkupHelper.createLabel(logText, ExtentColor.RED);
-                    fail(markup_message, true);
-                } catch (Exception ex) {
-                    ex.printStackTrace();
+                // Log failure message with stack trace
+                fail(ICON_BUG + "  " + "<b><i>" + result.getThrowable().toString() + "</i></b>");
+                String exceptionMessage = Arrays.toString(result.getThrowable().getStackTrace());
+                String message = "<details><summary><b><font color=red> Exception occurred, click to see details: "
+                        + ICON_SMILEY_FAIL + " </font></b>" + "</summary>" + exceptionMessage.replaceAll(",", "<br>")
+                        + "</details> \n";
+
+                fail(message);
+                String logText;
+                if (actualRetries > 0) {
+                    logText = BOLD_START + description + " has failed after " + actualRetries + " retries." + BOLD_END + "  " + ICON_SMILEY_FAIL;
+                } else {
+                    logText = BOLD_START + description + " has failed." + BOLD_END + "  " + ICON_SMILEY_FAIL;
                 }
+                Markup markup_message = MarkupHelper.createLabel(logText, ExtentColor.RED);
+                fail(markup_message, true);
             } else {
                 throw new IllegalArgumentException("Test Description must not be null or empty");
             }

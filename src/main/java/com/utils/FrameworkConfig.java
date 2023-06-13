@@ -72,4 +72,74 @@ public interface FrameworkConfig extends Config {
      */
     @DefaultValue("yes")
     String takescreenshots();
+
+    /**
+     * Specifies the default value for the "wait_for_element" configuration property.
+     * This property determines the duration, in seconds, to wait for an element to appear on the page.
+     * The default value is 20 seconds.
+     */
+    @DefaultValue("20")
+    int wait_for_element();
+
+    /**
+     * Specifies the default value for the "failure_retries" configuration property.
+     * This property determines the maximum number of retries for a failed test.
+     * The default value is 1 retry.
+     */
+    @DefaultValue("1")
+    int failure_retries();
+
+    /**
+     * Retrieves the value for the "send_email_to_users" property.
+     * @return the value of the "send_email_to_users" property, or "no" if no value is specified
+     */
+    @DefaultValue("no")
+    String send_email_to_users();
+
+    /**
+     * Specifies the default value for the "report_title" configuration property.
+     * This property determines the subject of email for the test automation reports.
+     * The default value is "Test Automation Reports".
+     */
+    @DefaultValue("Test Automation Reports")
+    String email_subject();
+
+    /**
+     * Specifies the default value for the "server" configuration property.
+     * This property determines the SMTP server address for sending emails.
+     * The default value is "smtp.gmail.com".
+     */
+    @DefaultValue("smtp.gmail.com")
+    String server();
+
+    /**
+     * Specifies the default value for the "port" configuration property.
+     * This property determines the SMTP server port number for sending emails.
+     * The default value is "587".
+     */
+    @DefaultValue("587")
+    String port();
+
+    /**
+     * Specifies the default value for the "from_email_address" configuration property.
+     * This property determines the email address of the sender.
+     * The default value is "chinmay.bhagat@digi-corp.com".
+     */
+    @DefaultValue("from@mail.com")
+    String from_email_address();
+
+    /**
+     * Retrieves the password for the email sender.
+     * This value is not specified with a default value.
+     */
+    String password();
+
+    /**
+     * Specifies the default value for the "to_email_addresses" configuration property.
+     * This property determines the email addresses of the recipients.
+     * Multiple email addresses can be provided, separated by commas.
+     * The default value is "vivek.navadia@digi-corp.com".
+     */
+    @DefaultValue("to@mail.com")
+    String to_email_addresses();
 }

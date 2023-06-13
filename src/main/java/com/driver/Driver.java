@@ -42,10 +42,10 @@ public class Driver {
      * @param description the description of the test
      * @param version     the version of the browser to use for the test
      */
-    public static void initDriver(Browsers browser, String url, RunModes mode, String description, String version) {
+    public static void initDriver(Browsers browser, String url, RunModes mode, String description, String version, Boolean headless) {
         if (Objects.isNull(getDriver())) {
             urlForReports = url;
-            setDriver(getDriver(browser, mode, description, version));
+            setDriver(getDriver(browser, mode, description, version, headless));
             getDriver().manage().window().maximize();
             getDriver().get(url);
             getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(20));

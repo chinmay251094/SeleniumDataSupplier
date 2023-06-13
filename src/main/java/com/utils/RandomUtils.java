@@ -35,7 +35,8 @@ public final class RandomUtils {
      * @return a random email address
      */
     public static String getEmail() {
-        return getName().replaceAll("\s", "").toLowerCase().concat("@gmail.com");
+        //return getName().replaceAll("\s", "").toLowerCase().concat("@gmail.com");
+        return null;
     }
 
     /**
